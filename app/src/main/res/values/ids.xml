@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="addVehicle_tv1" />
+    <item type="id" name="addVehicle_tv2"/>
+    <item type="id" name="addVehicle_tv3"/>
+    <item type="id" name="addVehicle_tv4"/>
+
+    <item type="id" name="addVehicle_et1"/>
+
+    <item type="id" name="addVehicle_sp1"/>
+    <item type="id" name="addVehicle_sp2"/>
+    <item type="id" name="addVehicle_sp3"/>
+
+</resources>

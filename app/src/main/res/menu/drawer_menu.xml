@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/home"
+            android:title="Home">
+        </item>
+        <item
+            android:id="@+id/my_vehicle"
+            android:title="My Vehicle Details">
+        </item>
+        <item
+            android:id="@+id/add_vehicle"
+            android:title="Add New Vehicle Details">
+        </item>
+        <item
+            android:id="@+id/share"
+            android:title="Share Vehicle Details">
+        </item>
+
+    </group>
+
+    <item
+        android:title="My Account">
+
+        <menu>
+            <item
+                android:id="@+id/my_profile"
+                android:title="My Profile">
+            </item>
+            <item
+                android:id="@+id/logout"
+                android:title="Log Out">
+            </item>
+
+        </menu>
+
+    </item>
+
+</menu>

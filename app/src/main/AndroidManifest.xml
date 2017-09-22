@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.sureshale.motorconnect">
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!--<activity android:name="com.sureshale.motorconnect.MainActivity"-->
+            <!--android:label="MotorConnect">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+
+
+        <activity android:name="com.sureshale.motorconnect.LoginActivity"
+            android:label="MotorConnect">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.sureshale.motorconnect.SignupActivity"
+            android:label="Signup New User"/>
+        <activity android:name="com.sureshale.motorconnect.MainActivity"
+            android:label="MotorConnect"/>
+        <activity android:name="com.sureshale.motorconnect.MyVehicleDetails"
+                  android:label="@string/activity_my_vehicle">
+
+        </activity>
+        <activity android:name="com.sureshale.motorconnect.AddVehicle"
+                  android:label="@string/add_vehicle">
+
+        </activity>
+        <activity android:name="com.sureshale.motorconnect.ListItemActivity"
+            android:label="Selected Vehicle Details">
+
+        </activity>
+    </application>
+
+</manifest>

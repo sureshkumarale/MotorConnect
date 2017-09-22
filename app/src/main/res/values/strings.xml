@@ -1,0 +1,144 @@
+<resources>
+    <string name="app_name">MotorConnect</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="activity_my_vehicle">My Vehicle Details</string>
+    <string name="add_vehicle">Add New Vehicle Details</string>
+
+    <string name="err_msg_name">Please Enter a Name</string>
+    <string name="err_email">Please Enter a Valid Email</string>
+    <string name="err_phone">Please Enter a Valid Phone Number</string>
+    <string name="err_password">Please Enter the Password</string>
+    <string name="err_confirmPassword">Please Enter Confirm Password</string>
+    <string name="login_register_link"><u>Register New User</u></string>
+
+    <string-array name="addVehicle_type">
+        <item>Select Vehicle Type</item>
+        <item>Two-Wheeler</item>
+        <item>Four-Wheeler</item>
+    </string-array>
+
+    <string-array name="twoWheeler_manufacturer">
+        <item>Select Manufacturer</item>
+        <item>Hero-Corp</item>
+        <item>Bajaj</item>
+        <item>Honda</item>
+        <item>Suzuki</item>
+        <item>Royal-Enfield</item>
+    </string-array>
+    <string-array name="fourWheeler_manufacturer">
+        <item>Select Manufacturer</item>
+        <item>Honda</item>
+        <item>Maruti-Suzuki</item>
+        <item>Hundai</item>
+        <item>Renault</item>
+        <item>Toyota</item>
+    </string-array>
+    <string-array name="Hero_Corp">
+        <item>Select Model</item>
+        <item>Splendor</item>
+        <item>Passion</item>
+        <item>Pleasure</item>
+        <item>Duet</item>
+        <item>CBZ</item>
+        <item>Glamour</item>
+    </string-array>
+    <string-array name="Honda_twoWheeler">
+        <item>Select Model</item>
+        <item>Unicorn</item>
+        <item>Shine</item>
+        <item>Activa</item>
+        <item>Activa125</item>
+        <item>CRB250</item>
+        <item>CRB350</item>
+    </string-array>
+    <string-array name="Bajaj">
+        <item>Select Model</item>
+        <item>Pulsar150</item>
+        <item>Pulsar220</item>
+        <item>Platina</item>
+        <item>Discovery</item>
+        <item>Avenger150</item>
+        <item>Avenger220</item>
+    </string-array>
+    <string-array name="Suzuki_twoWheeler">
+        <item>Select Model</item>
+        <item>Gixxer</item>
+        <item>Access125</item>
+        <item>Lets</item>
+    </string-array>
+    <string-array name="Royal_Enfield">
+        <item>Select Model</item>
+        <item>Classic350</item>
+        <item>Bullet350</item>
+        <item>Thunderbird350</item>
+        <item>Thunderbird500</item>
+        <item>Himalayan</item>
+        <item>ContinentalGT</item>
+    </string-array>
+    <string-array name="Honda_FourWheeler">
+        <item>Select Model</item>
+        <item>CRV</item>
+        <item>Civic</item>
+        <item>Accord</item>
+        <item>City</item>
+        <item>Amaze</item>
+        <item>Brio</item>
+    </string-array>
+    <string-array name="Maruti_Suzuki">
+        <item>Select Model</item>
+        <item>Alto800</item>
+        <item>AltoK10</item>
+        <item>Swift</item>
+        <item>Dezire</item>
+        <item>SCross</item>
+        <item>Balano</item>
+    </string-array>
+    <string-array name="Hundai">
+        <item>Select Model</item>
+        <item>i10</item>
+        <item>i20</item>
+        <item>Santro</item>
+        <item>i10Grand</item>
+        <item>EON</item>
+        <item>Verna</item>
+    </string-array>
+    <string-array name="Toyota">
+        <item>Select Model</item>
+        <item>Innova</item>
+        <item>InnovaCrysta</item>
+        <item>Etios</item>
+        <item>Liva</item>
+        <item>Corolla</item>
+        <item>Camry</item>
+    </string-array>
+    <string-array name="Renault">
+        <item>Select Model</item>
+        <item>Kwid</item>
+        <item>Duster</item>
+        <item>Lodgy</item>
+        <item>Scala</item>
+    </string-array>
+    <string-array name="year_of_manufacture">
+        <item>YYYY</item>
+        <item>2017</item>
+        <item>2016</item>
+        <item>2015</item>
+        <item>2014</item>
+        <item>2013</item>
+        <item>2012</item>
+        <item>2011</item>
+        <item>2010</item>
+        <item>2009</item>
+        <item>2008</item>
+        <item>2007</item>
+        <item>2006</item>
+        <item>2005</item>
+        <item>2004</item>
+        <item>2003</item>
+    </string-array>
+</resources>
