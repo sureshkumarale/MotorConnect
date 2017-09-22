@@ -22,7 +22,6 @@ public class MainActivity extends BaseActivity {
     ImageButton ib3;
     ImageButton ib4;
 
-//    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
