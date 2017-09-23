@@ -2,12 +2,9 @@ package com.sureshale.motorconnect;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -28,11 +25,6 @@ public class MyVehicleDetails extends BaseActivity {
     ListView vehicleDetailsList;
     FloatingActionButton fab;
 
-//    ExpandableListView expandableListView;
-//    List<String> parent;
-//    Map<String,List<String>> child;
-//    VehiclesExpandableListAdapter newadp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +37,8 @@ public class MyVehicleDetails extends BaseActivity {
         vRegistrationList = new ArrayList<>();
         vModelList = new ArrayList<>();
         vehicleDetailsList = (ListView)findViewById(R.id.list_vehicles);
-//
-//        expandableListView = (ExpandableListView)findViewById(R.id.expandable_list_view);
-//        parent = new ArrayList<>();
-//        child = new HashMap<>();
 
         databaseHelper = new DatabaseHelper(this);
-//        registerForContextMenu(vehicleDetailsList);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,25 +48,6 @@ public class MyVehicleDetails extends BaseActivity {
         });
 
     }
-
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//        getMenuInflater().inflate(R.menu.context_delete_update, menu);
-//        menu.setHeaderTitle("Options");
-//        super.onCreateContextMenu(menu, v, menuInfo);
-//    }
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()){
-//            case R.id.update :
-//                break;
-//
-//            case R.id.delete :
-//                break;
-//        }
-//        return super.onContextItemSelected(item);
-//    }
 
 
     @Override
@@ -126,36 +94,5 @@ public class MyVehicleDetails extends BaseActivity {
             }
         });
     }
-
-//    public void getVehicleDetails() {
-//                Cursor result = databaseHelper.getData();
-//                List<String> childList = new ArrayList<>();
-//                if (result.getCount() == 0) {
-//                    return;
-//                }
-//                while (result.moveToNext()) {
-//                    parent.add(result.getString(0)+"\n"+result.getString(2)+" "+result.getString(3));
-//                    childList.add(result.getString(1));
-//                    child.put("Type : ",childList);
-//                }
-//            newadp = new VehiclesExpandableListAdapter(parent,child,this);
-//        expandableListView.setAdapter(newadp);
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//            startActivity(new Intent(MyVehicleDetails.this, AddVehicle.class));
-//
-//            return true;
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.vehicle_details_menu,menu);
-//        return true;
-//
-//    }
-
 
 }
