@@ -21,6 +21,9 @@ import com.example.sureshale.motorconnect.R;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    Toolbar toolbar;
+    DrawerLayout fullView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -30,12 +33,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void setContentView(int layoutResID)
     {
-        DrawerLayout fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
+        fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
         FrameLayout activityContainer = (FrameLayout) fullView.findViewById(R.id.activity_content);
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
         super.setContentView(fullView);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
@@ -47,24 +50,29 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 //        String str = getIntent().getExtras().getString("userNameText");
 //        userName_header.setText(str);
 
-        if(useToolbar())
-        {
-            setSupportActionBar(toolbar);
-            setTitle("Activity Title");
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                    this, fullView, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            fullView.setDrawerListener(toggle);
-            toggle.syncState();
-        }
-        else{
-            toolbar.setVisibility(View.GONE);
-        }
+//        if(useToolbar())
+//        {
+//            setSupportActionBar(toolbar);
+//            setTitle("Activity Title");
+//            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                    this, fullView, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//            fullView.setDrawerListener(toggle);
+//            toggle.syncState();
+//        }
+//        else{
+//            toolbar.setVisibility(View.GONE);
+//        }
 
     }
 
-    protected boolean useToolbar()
+    protected void useToolbar(String title)
     {
-        return true;
+        setSupportActionBar(toolbar);
+        setTitle(title);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, fullView, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        fullView.setDrawerListener(toggle);
+        toggle.syncState();
     }
 
 

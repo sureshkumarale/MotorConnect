@@ -45,6 +45,8 @@ public class MyVehicleDetails extends BaseActivity {
             }
         });
 
+        useToolbar("My Vehicles");
+
     }
 
 

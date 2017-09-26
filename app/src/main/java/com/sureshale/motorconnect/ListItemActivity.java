@@ -27,11 +27,10 @@ import com.example.sureshale.motorconnect.R;
 
 public class ListItemActivity extends BaseActivity{
 
-    TextView header,type,lastInsuranceDate,lastPollutionDate,lastTyreChangeDate,lastWheelAlignmentDate,lastServicingDate;
+    TextView type,lastInsuranceDate,lastPollutionDate,lastTyreChangeDate,lastWheelAlignmentDate,lastServicingDate;
     EditText meterReading;
     DatabaseHelper databaseHelper;
     String headerText;
-    Toolbar toolbar;
     Button updateButton;
 
 //    DatePickerDialog.OnDateSetListener mDateSetListener1;
@@ -44,8 +43,6 @@ public class ListItemActivity extends BaseActivity{
 
         databaseHelper = new DatabaseHelper(this);
 
-        toolbar = (Toolbar) findViewById(R.id.generic_appbar);
-        header = (TextView)findViewById(R.id.header);
         type = (TextView)findViewById(R.id.vehicleType_2);
         lastInsuranceDate = (TextView)findViewById(R.id.insurance_date);
         lastPollutionDate = (TextView)findViewById(R.id.pollution_date);
@@ -56,10 +53,7 @@ public class ListItemActivity extends BaseActivity{
         updateButton = (Button)findViewById(R.id.update_button);
 
         headerText = getIntent().getExtras().get("regNumber").toString();
-        toolbar.setTitle("Vehicle:"+headerText);
-
-        setSupportActionBar(toolbar);
-        header.setText(headerText);
+        useToolbar(headerText);
 
         setDate(lastInsuranceDate);
         setDate(lastPollutionDate);
@@ -76,7 +70,7 @@ public class ListItemActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
 
-                boolean isInserted = databaseHelper.update_vehicle_history(header.getText().toString(),
+                boolean isInserted = databaseHelper.update_vehicle_history(headerText,
                         lastServicingDate.getText().toString(),
                         lastInsuranceDate.getText().toString(),
                         lastPollutionDate.getText().toString(),
