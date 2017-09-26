@@ -17,7 +17,7 @@ import java.util.List;
 
 public class MyVehicleDetails extends BaseActivity {
 
-    Toolbar toolbar;
+//    Toolbar toolbar;
     DatabaseHelper databaseHelper;
     VehiclesListAdapter adp;
     List<String> vRegistrationList;
@@ -30,9 +30,7 @@ public class MyVehicleDetails extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_vehicle);
 
-        toolbar = (Toolbar) findViewById(R.id.generic_appbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        setSupportActionBar(toolbar);
 
         vRegistrationList = new ArrayList<>();
         vModelList = new ArrayList<>();

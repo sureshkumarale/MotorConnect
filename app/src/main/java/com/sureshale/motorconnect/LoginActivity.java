@@ -80,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                                 System.out.println("Column 2 :::"+result.getString(2));
                                 System.out.println("Column 3 :::"+result.getString(3));
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                intent.putExtra("userText",result.getString(0).toString());
                                 startActivity(intent);
                             }
                         }

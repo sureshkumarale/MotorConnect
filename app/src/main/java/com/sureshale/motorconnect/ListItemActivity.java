@@ -57,6 +57,7 @@ public class ListItemActivity extends BaseActivity{
 
         headerText = getIntent().getExtras().get("regNumber").toString();
         toolbar.setTitle("Vehicle:"+headerText);
+
         setSupportActionBar(toolbar);
         header.setText(headerText);
 

@@ -38,8 +38,8 @@
         </activity>
         <activity android:name="com.sureshale.motorconnect.AddVehicle"
                   android:label="@string/add_vehicle">
-
         </activity>
+
         <activity android:name="com.sureshale.motorconnect.ListItemActivity"
             android:label="Selected Vehicle Details">
 
