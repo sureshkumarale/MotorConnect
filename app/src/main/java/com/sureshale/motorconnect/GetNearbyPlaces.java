@@ -64,7 +64,7 @@ private void ShowNearbyPlaces(List<HashMap<String, String>> nearbyPlacesList) {
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
         }
         }
         }

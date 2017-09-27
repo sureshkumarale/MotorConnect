@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     System.out.println("Login Text::::"+str);
                     Cursor result = databaseHelper.userValidation(str);
                     if (result.getCount()==0)
-                        Toast.makeText(LoginActivity.this, "Invalid User !!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Invalid UserSharedPreference !!", Toast.LENGTH_SHORT).show();
                     else {
                         while (result.moveToNext()){
                             if ((str.contentEquals(result.getString(1)) ||
@@ -80,6 +80,8 @@ public class LoginActivity extends AppCompatActivity {
                                 System.out.println("Column 1 :::"+result.getString(1));
                                 System.out.println("Column 2 :::"+result.getString(2));
                                 System.out.println("Column 3 :::"+result.getString(3));
+                                UserSharedPreference userSharedPreference = new UserSharedPreference(LoginActivity.this);
+                                userSharedPreference.setName(result.getString(0));
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                             }

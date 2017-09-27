@@ -51,7 +51,7 @@ public class SignupActivity extends AppCompatActivity {
         inputConfirmPassword = (EditText)findViewById(R.id.signup_input_confirmPassword);
 
         toolbar = (Toolbar) findViewById(R.id.generic_appbar);
-        toolbar.setTitle("Sign Up New User");
+        toolbar.setTitle("Sign Up New UserSharedPreference");
         registerBtn = (Button)findViewById(R.id.register_button);
 
         animShake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
@@ -72,7 +72,7 @@ public class SignupActivity extends AppCompatActivity {
                                 inputPhone.getText().toString().trim(),
                                 inputPassword.getText().toString().trim());
                         if (isInserted = true) {
-                            Toast.makeText(SignupActivity.this, "User Details added Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "UserSharedPreference Details added Successfully", Toast.LENGTH_SHORT).show();
                             inputName.setText("");
                             inputEmail.setText("");
                             inputPhone.setText("");

@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public static final String dataBase_Name = "admin.db";
 
-//  User Table
+//  UserSharedPreference Table
     public static final String table_user_details = "userDetails";
     public static final String inputUserName = "userName";
     public static final String inputEmail = "email";

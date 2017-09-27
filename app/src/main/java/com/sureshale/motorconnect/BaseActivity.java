@@ -41,12 +41,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        ****User name Text display****
-
+//        ****UserSharedPreference name Text display****
+            UserSharedPreference userSharedPreference = new UserSharedPreference(BaseActivity.this);
+        System.out.println("UserSharedPreference Name2 :"+ userSharedPreference.getName().toString());
 //        View v1 = navigationView.findViewById(R.id.navigation_header);
 //        TextView userName_header = (TextView)v1.findViewById(R.id.user_name);
 //        String str = getIntent().getExtras().getString("userNameText");
-//        userName_header.setText(str);
+//        userName_header.setText("Hello "+userSharedPreference.getName().toString());
 
     }
 
@@ -87,6 +88,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.logout) {
 
+            new UserSharedPreference(BaseActivity.this).removeUser();
+            Intent intent  = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finishAffinity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_container);
