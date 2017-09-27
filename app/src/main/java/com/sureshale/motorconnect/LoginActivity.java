@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = (EditText)findViewById(R.id.login_password);
 
         toolbar = (Toolbar) findViewById(R.id.generic_appbar);
+        toolbar.setTitle("Login");
         registerNewUser = (TextView)findViewById(R.id.login_register_link);
         loginButton = (Button)findViewById(R.id.login_button);
         databaseHelper = new DatabaseHelper(this);

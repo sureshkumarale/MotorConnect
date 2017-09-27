@@ -9,9 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.example.sureshale.motorconnect.R;
 
@@ -49,19 +47,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 //        TextView userName_header = (TextView)v1.findViewById(R.id.user_name);
 //        String str = getIntent().getExtras().getString("userNameText");
 //        userName_header.setText(str);
-
-//        if(useToolbar())
-//        {
-//            setSupportActionBar(toolbar);
-//            setTitle("Activity Title");
-//            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                    this, fullView, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//            fullView.setDrawerListener(toggle);
-//            toggle.syncState();
-//        }
-//        else{
-//            toolbar.setVisibility(View.GONE);
-//        }
 
     }
 

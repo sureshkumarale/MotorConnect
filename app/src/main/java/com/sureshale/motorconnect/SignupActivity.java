@@ -51,6 +51,7 @@ public class SignupActivity extends AppCompatActivity {
         inputConfirmPassword = (EditText)findViewById(R.id.signup_input_confirmPassword);
 
         toolbar = (Toolbar) findViewById(R.id.generic_appbar);
+        toolbar.setTitle("Sign Up New User");
         registerBtn = (Button)findViewById(R.id.register_button);
 
         animShake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);

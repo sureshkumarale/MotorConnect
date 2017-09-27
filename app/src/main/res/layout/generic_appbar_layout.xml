@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/generic_appbar"
     android:theme="@style/AppTheme.AppBarOverlay"
-    android:background="?attr/colorPrimary">
+    android:background="@color/toolbar">
 
 
 </android.support.v7.widget.Toolbar>

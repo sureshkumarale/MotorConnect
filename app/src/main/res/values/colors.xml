@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="toolbar">#26a69a</color>
-    <color name="navigation_header">#64d8cb</color>
+    <color name="navigation_header">#4DB6AC</color>
+    <color name="statusbar">#00695C</color>
 </resources>
