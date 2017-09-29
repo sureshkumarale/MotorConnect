@@ -29,7 +29,7 @@ public class ServicesActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ServicesActivity.this, MapsActivity.class);
-                intent.putExtra("car_servicing","car servicing center");
+//                intent.putExtra("car_servicing","car servicing center");
                 startActivity(intent);
             }
         });

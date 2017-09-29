@@ -9,7 +9,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.example.sureshale.motorconnect.R;
 
@@ -44,10 +46,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 //        ****UserSharedPreference name Text display****
             UserSharedPreference userSharedPreference = new UserSharedPreference(BaseActivity.this);
         System.out.println("UserSharedPreference Name2 :"+ userSharedPreference.getName().toString());
-//        View v1 = navigationView.findViewById(R.id.navigation_header);
-//        TextView userName_header = (TextView)v1.findViewById(R.id.user_name);
-//        String str = getIntent().getExtras().getString("userNameText");
-//        userName_header.setText("Hello "+userSharedPreference.getName().toString());
+
+        View v1 = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        TextView userName_header = (TextView)v1.findViewById(R.id.user_name);
+        userName_header.setText("Hello "+userSharedPreference.getName().toString());
 
     }
 
