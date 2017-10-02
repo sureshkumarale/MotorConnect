@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/signup_input_name"
-            android:ems="10"
+            android:ems="15"
             android:hint="Name"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/signup_input_phnumber"
                 android:inputType="phone"
-                android:ems="10"
+                android:ems="15"
                 android:hint="Mobile Number"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -69,13 +69,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/signup_input_layout_password">
+            android:id="@+id/signup_input_layout_password"
+            app:passwordToggleEnabled="true">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/signup_input_password"
-                android:inputType="textVisiblePassword"
+                android:inputType="textPassword"
                 android:ems="10"
                 android:hint="Password"/>
         </android.support.design.widget.TextInputLayout>
@@ -84,13 +85,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/signup_input_layout_confirmPassword">
+            android:id="@+id/signup_input_layout_confirmPassword"
+            app:passwordToggleEnabled="true">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/signup_input_confirmPassword"
-                android:inputType="textVisiblePassword"
+                android:inputType="textPassword"
                 android:ems="10"
                 android:hint="Confirm Password"/>
         </android.support.design.widget.TextInputLayout>

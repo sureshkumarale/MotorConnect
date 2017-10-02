@@ -10,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,7 +24,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
     private Vibrator vibrator;
-    Animation animShake;
     TextInputLayout layoutName, layoutEmail, layoutPhone, layoutPassword, layoutConfirmPassword;
     EditText inputName, inputEmail, inputPhone, inputPassword, inputConfirmPassword;
     Button registerBtn;
@@ -51,10 +48,9 @@ public class SignupActivity extends AppCompatActivity {
         inputConfirmPassword = (EditText)findViewById(R.id.signup_input_confirmPassword);
 
         toolbar = (Toolbar) findViewById(R.id.generic_appbar);
-        toolbar.setTitle("Sign Up New UserSharedPreference");
+        toolbar.setTitle("Sign Up New User");
         registerBtn = (Button)findViewById(R.id.register_button);
 
-        animShake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
         vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         databaseHelper = new DatabaseHelper(this);
 
@@ -97,38 +93,26 @@ public class SignupActivity extends AppCompatActivity {
     private boolean validateForm(){
 
         if(!checkName()){
-            inputName.setAnimation(animShake);
-            inputName.startAnimation(animShake);
             vibrator.vibrate(120);
             return false;
         }
         if(!checkEmail()){
-            inputEmail.setAnimation(animShake);
-            inputEmail.startAnimation(animShake);
             vibrator.vibrate(120);
             return false;
         }
         if(!checkPhone()){
-            inputPhone.setAnimation(animShake);
-            inputPhone.startAnimation(animShake);
             vibrator.vibrate(120);
             return false;
         }
         if(!checkPassword()){
-            inputPassword.setAnimation(animShake);
-            inputPassword.startAnimation(animShake);
             vibrator.vibrate(120);
             return false;
         }
         if(!checkConfirmPassword()){
-            inputConfirmPassword.setAnimation(animShake);
-            inputConfirmPassword.startAnimation(animShake);
             vibrator.vibrate(120);
             return false;
         }
         if(!inputConfirmPassword.getText().toString().contentEquals(inputPassword.getText().toString())){
-            inputName.setAnimation(animShake);
-            inputName.startAnimation(animShake);
             vibrator.vibrate(120);
             return false;
         }
@@ -190,9 +174,9 @@ public class SignupActivity extends AppCompatActivity {
     private boolean checkConfirmPassword(){
         if (inputConfirmPassword.getText().toString().trim().isEmpty() ||
                 !inputConfirmPassword.getText().toString().contentEquals(inputPassword.getText().toString())){
-            layoutName.setErrorEnabled(true);
-            layoutName.setError("Please Enter Confirm Password");
-            inputName.setError("Enter same as password");
+            layoutConfirmPassword.setErrorEnabled(true);
+            layoutConfirmPassword.setError("Please Enter Confirm Password");
+            inputConfirmPassword.setError("Enter same as password");
             return false;
         }
         layoutConfirmPassword.setErrorEnabled(false);
