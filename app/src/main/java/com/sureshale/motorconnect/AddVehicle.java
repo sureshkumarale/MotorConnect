@@ -1,6 +1,10 @@
 package com.sureshale.motorconnect;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,11 +23,13 @@ import com.example.sureshale.motorconnect.R;
 
 public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
+    TextInputLayout regNumberLayout, vehicleTypeSpinnerLayout, vehicleManufacturerLayout, vehicleModelLayout;
     DatabaseHelper databaseHelper;
     Spinner type,manufacturer,model,yearOfman;
     Toolbar toolbar;
     Button btn;
-    EditText et1;
+    EditText regNumber;
+    private Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +41,23 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
         setSupportActionBar(toolbar);
 
         databaseHelper = new DatabaseHelper(AddVehicle.this);
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
-        et1         = (EditText)findViewById(R.id.editText1);
+        regNumberLayout = (TextInputLayout)findViewById(R.id.regNumber_input_layout);
+        vehicleTypeSpinnerLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_vehicleType);
+        vehicleManufacturerLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_manufacturer);
+        vehicleModelLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_model);
+
+        regNumber         = (EditText)findViewById(R.id.registrationNumber);
         type        =(Spinner)findViewById(R.id.vehicleType);
         manufacturer=(Spinner)findViewById(R.id.manufacturer);
         model       =(Spinner)findViewById(R.id.model);
         yearOfman  =(Spinner)findViewById(R.id.year_of_manufacure);
         btn         =(Button)findViewById(R.id.addVehicleData);
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(AddVehicle.this,
-                android.R.layout.simple_list_item_1,
-                getResources().getStringArray(R.array.addVehicle_type));
-        type.setAdapter(myAdapter);
+        type.setAdapter(new ArrayAdapter<String>(AddVehicle.this, android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.addVehicle_type)));
+//        type.setAdapter(myAdapter);
         type.setOnItemSelectedListener(this);
 
         addNewVehicleData();
@@ -56,22 +67,21 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isInserted = databaseHelper.insert_newVehicle_data(et1.getText().toString(),
+                if (validateForm() == true) {
+                boolean isInserted = databaseHelper.insert_newVehicle_data(regNumber.getText().toString(),
                         type.getSelectedItem().toString(),
                         manufacturer.getSelectedItem().toString(),
                         model.getSelectedItem().toString(),
                         yearOfman.getSelectedItem().toString());
-                if (isInserted=true) {
+                if (isInserted = true) {
                     Toast.makeText(AddVehicle.this, "Vehicle Details added Successfully", Toast.LENGTH_SHORT).show();
-                    et1.setText("");
-                    yearOfman.setAdapter(null);
-                    model.setAdapter(null);
-                    manufacturer.setAdapter(null);
-                    type.setAdapter(null);
+                    finish();
+                    Intent intent = new Intent(AddVehicle.this,MyVehicleDetails.class);
+                    startActivity(intent);
 
-                }
-                else
+                } else
                     Toast.makeText(AddVehicle.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
+            }
             }
         });
     }
@@ -80,34 +90,33 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
         // TODO Auto-generated method stub
         String str1= type.getSelectedItem().toString();
         if(str1.contentEquals("Two-Wheeler")) {
-            ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.twoWheeler_manufacturer));
-            myAdapter2.notifyDataSetChanged();
-            manufacturer.setAdapter(myAdapter2);
+            manufacturer.setAdapter(new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.twoWheeler_manufacturer)));
+//            myAdapter2.notifyDataSetChanged();
             manufacturer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String str2 = manufacturer.getSelectedItem().toString();
                     switch (str2){
                         case "Hero-Corp" :
-                            ArrayAdapter<String> myAdapter4 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Hero_Corp));
-                            model.setAdapter(myAdapter4);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Hero_Corp)));
                             break;
                         case "Bajaj" :
-                            ArrayAdapter<String> myAdapter5 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Bajaj));
-                            model.setAdapter(myAdapter5);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Bajaj)));
                             break;
                         case "Honda" :
-                            ArrayAdapter<String> myAdapter6 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Honda_twoWheeler));
-                            model.setAdapter(myAdapter6);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Honda_twoWheeler)));
                             break;
                         case "Suzuki" :
-                            ArrayAdapter<String> myAdapter7 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Suzuki_twoWheeler));
-                            model.setAdapter(myAdapter7);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Suzuki_twoWheeler)));
                             break;
                         case "Royal-Enfield" :
-                            ArrayAdapter<String> myAdapter8 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Royal_Enfield));
-                            model.setAdapter(myAdapter8);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Royal_Enfield)));
                             break;
                     }
                 }
@@ -120,34 +129,34 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
 
         }
         if(str1.contentEquals("Four-Wheeler")) {
-            ArrayAdapter<String> myAdapter3 = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.fourWheeler_manufacturer));
-            myAdapter3.notifyDataSetChanged();
-            manufacturer.setAdapter(myAdapter3);
+            manufacturer.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
+                    getResources().getStringArray(R.array.fourWheeler_manufacturer)));
+//            myAdapter3.notifyDataSetChanged();
+//            manufacturer.setAdapter(myAdapter3);
             manufacturer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String str3 = manufacturer.getSelectedItem().toString();
                     switch (str3){
                         case "Honda" :
-                            ArrayAdapter<String> myAdapter4 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Honda_FourWheeler));
-                            model.setAdapter(myAdapter4);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Honda_FourWheeler)));
                             break;
                         case "Maruti-Suzuki" :
-                            ArrayAdapter<String> myAdapter5 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Maruti_Suzuki));
-                            model.setAdapter(myAdapter5);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Maruti_Suzuki)));
                             break;
                         case "Hundai" :
-                            ArrayAdapter<String> myAdapter6 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Hundai));
-                            model.setAdapter(myAdapter6);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Hundai)));
                             break;
                         case "Renault" :
-                            ArrayAdapter<String> myAdapter7 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Renault));
-                            model.setAdapter(myAdapter7);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Renault)));
                             break;
                         case "Toyota" :
-                            ArrayAdapter<String> myAdapter8 = new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Toyota));
-                            model.setAdapter(myAdapter8);
+                            model.setAdapter(new ArrayAdapter<String>(AddVehicle.this,android.R.layout.simple_list_item_1,
+                                    getResources().getStringArray(R.array.Toyota)));
                             break;
                     }
                 }
@@ -159,58 +168,6 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
             });
         }
 
-
-//    @Override
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        String str1 = type.getSelectedItem().toString();
-//        switch (str1){
-//            case "Two-Wheeler" :
-//                ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(this,
-//                        android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.twoWheeler_manufacturer));
-//                manufacturer.setAdapter(myAdapter2);
-//                manufacturer.setOnItemSelectedListener(this);
-//                String str2 = manufacturer.getSelectedItem().toString();
-//                switch (str2){
-//                    case "Hero-Corp" :
-//                        ArrayAdapter<String> myAdapter4 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Hero_Corp));
-//                        model.setAdapter(myAdapter4);
-//                        break;
-//                    case "Bajaj" :
-//                        ArrayAdapter<String> myAdapter5 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Bajaj));
-//                        model.setAdapter(myAdapter5);
-//                        break;
-//                    case "Honda" :
-//                        ArrayAdapter<String> myAdapter6 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Honda_twoWheeler));
-//                        model.setAdapter(myAdapter6);
-//                        break;
-//                    case "Suzuki" :
-//                        ArrayAdapter<String> myAdapter7 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Suzuki_twoWheeler));
-//                        model.setAdapter(myAdapter7);
-//                        break;
-//                    case "Royal-Enfield" :
-//                        ArrayAdapter<String> myAdapter8 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Royal_Enfield));
-//                        model.setAdapter(myAdapter8);
-//                        break;
-//                }
-//                break;
-//
-//            case "Four-Wheeler" :
-//                ArrayAdapter<String> myAdapter3 = new ArrayAdapter<String>(this,
-//                        android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.fourWheeler_manufacturer));
-//                manufacturer.setAdapter(myAdapter3);
-//                manufacturer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    }
-//                });
-//                break;
-//        }
     }
 
 
@@ -220,5 +177,87 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
 
     }
 
+    private boolean validateForm(){
 
+        if(!checkName()){
+            vibrator.vibrate(120);
+            return false;
+        }
+        if(vehicleType()== true) {
+
+            if(vehicleManufacturer()==true){
+
+                if(vehicleModel()==true){
+
+                    if(yearofManufacture()==true){
+                       return true;
+                    }
+                    else {
+                        vibrator.vibrate(120);
+                        return false;
+                    }
+                }
+                else {
+                    vibrator.vibrate(120);
+                    return false;
+                }
+            }
+            else {
+            vibrator.vibrate(120);
+            return false;
+            }
+        }
+        else {
+            vibrator.vibrate(120);
+            return false;
+        }
+    }
+    private boolean checkName(){
+        if (regNumber.getText().toString().trim().isEmpty()){
+            regNumberLayout.setErrorEnabled(true);
+            regNumberLayout.setError("Please Enter Vehicle Registration Number");
+            regNumber.setError("Valid input required !");
+            return false;
+        }
+        regNumberLayout.setErrorEnabled(false);
+        return true;
+    }
+    private boolean vehicleType(){
+        if(type.getSelectedItem().toString().isEmpty()||
+                type.getSelectedItem().toString().contentEquals("Select Vehicle Type")){
+            vehicleTypeSpinnerLayout.setErrorEnabled(true);
+            vehicleTypeSpinnerLayout.setError("Please select Vehicle Type");
+            return false;
+        }
+        vehicleTypeSpinnerLayout.setErrorEnabled(false);
+        return true;
+    }
+    private boolean vehicleManufacturer(){
+        if(manufacturer.getSelectedItem().toString().isEmpty() ||
+                manufacturer.getSelectedItem().toString().contentEquals("Select Manufacturer")){
+            vehicleManufacturerLayout.setErrorEnabled(true);
+            vehicleManufacturerLayout.setError("Please select Vehicle Manufacturer");
+            return false;
+        }
+        vehicleManufacturerLayout.setErrorEnabled(false);
+        return true;
+    }
+    private boolean vehicleModel(){
+        if(model.getSelectedItem().toString().isEmpty() ||
+                model.getSelectedItem().toString().contentEquals("Select Model")){
+            vehicleModelLayout.setErrorEnabled(true);
+            vehicleModelLayout.setError("Please select Vehicle Model");
+            return false;
+        }
+        vehicleModelLayout.setErrorEnabled(false);
+        return true;
+    }
+    private boolean yearofManufacture(){
+        if(yearOfman.getSelectedItem().toString().isEmpty() ||
+                yearOfman.getSelectedItem().toString().contentEquals("YYYY")){
+            Toast.makeText(this, "Please select year of Manufacture of vehicle", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 }

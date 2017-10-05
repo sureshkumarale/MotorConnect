@@ -55,7 +55,7 @@
             android:name="com.sureshale.motorconnect.AddVehicle"
             android:label="@string/add_vehicle" />
         <activity
-            android:name="com.sureshale.motorconnect.ListItemActivity"
+            android:name="com.sureshale.motorconnect.UpdateVehicleDetailsActivity"
             android:label="Selected Vehicle Details" />
         <activity
             android:name="com.sureshale.motorconnect.ServicesActivity"

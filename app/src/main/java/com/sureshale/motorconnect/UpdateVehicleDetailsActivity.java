@@ -8,8 +8,6 @@ import android.database.Cursor;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +23,7 @@ import com.example.sureshale.motorconnect.R;
  * Created by sureshale on 15-09-2017.
  */
 
-public class ListItemActivity extends BaseActivity{
+public class UpdateVehicleDetailsActivity extends BaseActivity{
 
     TextView type,lastInsuranceDate,lastPollutionDate,lastTyreChangeDate,lastWheelAlignmentDate,lastServicingDate;
     EditText meterReading;
@@ -39,11 +37,11 @@ public class ListItemActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_item_activity);
+        setContentView(R.layout.activity_update_vehicle_details);
 
         databaseHelper = new DatabaseHelper(this);
 
-        type = (TextView)findViewById(R.id.vehicleType_2);
+        type = (TextView)findViewById(R.id.vehicleType);
         lastInsuranceDate = (TextView)findViewById(R.id.insurance_date);
         lastPollutionDate = (TextView)findViewById(R.id.pollution_date);
         meterReading = (EditText)findViewById(R.id.meter_reading);
@@ -78,11 +76,13 @@ public class ListItemActivity extends BaseActivity{
                         lastTyreChangeDate.getText().toString(),
                         lastWheelAlignmentDate.getText().toString());
                 if (isInserted=true) {
-                    Toast.makeText(ListItemActivity.this, "Vehicle History Updated Successfully", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(UpdateVehicleDetailsActivity.this, "Vehicle History Updated Successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                    Intent intent = new Intent(UpdateVehicleDetailsActivity.this,MyVehicleDetails.class);
+                    startActivity(intent);
                 }
                 else
-                    Toast.makeText(ListItemActivity.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateVehicleDetailsActivity.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
 
 
                 System.out.println("Selected  insurance Date :::::"+lastInsuranceDate.getText().toString());
@@ -113,7 +113,7 @@ public class ListItemActivity extends BaseActivity{
                 int month = cal.get(Calendar.MONTH);
                 int date = cal.get(Calendar.DAY_OF_MONTH);
 
-                    DatePickerDialog dialog = new DatePickerDialog(ListItemActivity.this,
+                    DatePickerDialog dialog = new DatePickerDialog(UpdateVehicleDetailsActivity.this,
                             android.R.style.Theme_Holo_Light_Dialog_MinWidth, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -140,7 +140,7 @@ public class ListItemActivity extends BaseActivity{
 //                int month = cal.get(Calendar.MONTH);
 //                int date = cal.get(Calendar.DAY_OF_MONTH);
 //
-//                DatePickerDialog dialog = new DatePickerDialog(ListItemActivity.this,
+//                DatePickerDialog dialog = new DatePickerDialog(UpdateVehicleDetailsActivity.this,
 //                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,mDateSetListener2,year,month,date);
 //                dialog.show();
 //
@@ -161,7 +161,7 @@ public class ListItemActivity extends BaseActivity{
         Cursor result = databaseHelper.getData(column);
 
         while (result.moveToNext()){
-            type.setText(result.getString(1));
+            type.setText(result.getString(2)+" "+result.getString(3));
         }
     }
 
@@ -177,7 +177,7 @@ public class ListItemActivity extends BaseActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         final String row = headerText;
         if(item.getItemId()==R.id.delete_vehicle){
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListItemActivity.this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UpdateVehicleDetailsActivity.this);
             alertDialogBuilder.setTitle("Delete Vehicle Details:"+row+" !!");
             alertDialogBuilder.setMessage("Do you really want to delete this Vehicle Details Permanently?");
             alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -185,9 +185,9 @@ public class ListItemActivity extends BaseActivity{
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
                     databaseHelper.deleteRow(row);
-                    Intent intent = new Intent(ListItemActivity.this,MyVehicleDetails.class);
+                    Intent intent = new Intent(UpdateVehicleDetailsActivity.this,MyVehicleDetails.class);
                     startActivity(intent);
-                    Toast.makeText(ListItemActivity.this, "Deleted the "+row+" details !!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateVehicleDetailsActivity.this, "Deleted the "+row+" details !!", Toast.LENGTH_SHORT).show();
                 }
             });
 

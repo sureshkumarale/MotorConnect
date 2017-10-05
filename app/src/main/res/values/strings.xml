@@ -15,6 +15,7 @@
     <string name="err_password">Please Enter the Password</string>
     <string name="err_confirmPassword">Please Enter Confirm Password</string>
     <string name="login_register_link"><u>Register New User</u></string>
+    <string name="vehicleDetails"><u>Add below details for Notifications</u></string>
 
     <string-array name="addVehicle_type">
         <item>Select Vehicle Type</item>

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -88,7 +87,7 @@ public class MyVehicleDetails extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MyVehicleDetails.this, "You have selected :"+vRegistrationList.get(position), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MyVehicleDetails.this,ListItemActivity.class);
+                Intent intent = new Intent(MyVehicleDetails.this,UpdateVehicleDetailsActivity.class);
                 intent.putExtra("regNumber",vRegistrationList.get(position));
                 startActivity(intent);
             }
