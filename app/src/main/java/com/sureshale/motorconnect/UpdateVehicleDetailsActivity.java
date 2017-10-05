@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -100,6 +102,19 @@ public class UpdateVehicleDetailsActivity extends BaseActivity{
 
         getAllVehicleDetails(headerText);
 
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_container);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            Intent intent = new Intent(this, MyVehicleDetails.class);
+            startActivity(intent);
+        }
     }
 
     @TargetApi(24)

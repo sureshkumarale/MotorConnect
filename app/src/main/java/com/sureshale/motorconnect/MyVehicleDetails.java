@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -65,8 +67,15 @@ public class MyVehicleDetails extends BaseActivity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_container);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void getVehicleDetails() {
@@ -93,5 +102,6 @@ public class MyVehicleDetails extends BaseActivity {
             }
         });
     }
+
 
 }

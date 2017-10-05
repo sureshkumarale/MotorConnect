@@ -2,6 +2,8 @@ package com.sureshale.motorconnect;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.Button;
 
@@ -36,5 +38,18 @@ public class ServicesActivity extends BaseActivity {
 
 
         useToolbar("Services");
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_container);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }
