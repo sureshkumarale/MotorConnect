@@ -27,7 +27,7 @@ public class MyVehicleDetails extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_vehicle);
+        setContentView(R.layout.activity_my_vehicle_details);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
