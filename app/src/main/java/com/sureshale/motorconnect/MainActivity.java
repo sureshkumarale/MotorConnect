@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        ib3.setOnClickListener(new View.OnClickListener() {
+        ib2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,ServicesActivity.class);

@@ -90,17 +90,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return true;
     }
 
-    protected void newmethod(){
-        mMap.clear();
-        String str = "car servicing center";
-        String url = getUrl(latitude, longitude, str);
-        Object[] DataTransfer = new Object[2];
-        DataTransfer[0] = mMap;
-        DataTransfer[1] = url;
-        GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
-        getNearbyPlacesData.execute(DataTransfer);
-        Toast.makeText(MapsActivity.this,"Nearby "+str, Toast.LENGTH_LONG).show();
-    }
 
     /**
      * Manipulates the map once available.
@@ -131,62 +120,62 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-        Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
-        btnRestaurant.setOnClickListener(new View.OnClickListener() {
-            String Restaurant = "restaurant";
-            @Override
-            public void onClick(View v) {
-                Log.d("onClick", "Button is Clicked");
-                mMap.clear();
-                String url = getUrl(latitude, longitude, Restaurant);
-                Object[] DataTransfer = new Object[2];
-                DataTransfer[0] = mMap;
-                DataTransfer[1] = url;
-                Log.d("onClick", url);
-                GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
-                getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(MapsActivity.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
-            }
-        });
+//        Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
+//        btnRestaurant.setOnClickListener(new View.OnClickListener() {
+//            String Restaurant = "restaurant";
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("onClick", "Button is Clicked");
+//                mMap.clear();
+//                String url = getUrl(latitude, longitude, Restaurant);
+//                Object[] DataTransfer = new Object[2];
+//                DataTransfer[0] = mMap;
+//                DataTransfer[1] = url;
+//                Log.d("onClick", url);
+//                GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
+//                getNearbyPlacesData.execute(DataTransfer);
+//                Toast.makeText(MapsActivity.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
-        Button btnHospital = (Button) findViewById(R.id.btnHospital);
-        btnHospital.setOnClickListener(new View.OnClickListener() {
-            String Hospital = "hospital";
-            @Override
-            public void onClick(View v) {
-                Log.d("onClick", "Button is Clicked");
-                mMap.clear();
-                String url = getUrl(latitude, longitude, Hospital);
-                Object[] DataTransfer = new Object[2];
-                DataTransfer[0] = mMap;
-                DataTransfer[1] = url;
-                Log.d("onClick", url);
-                GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
-                getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(MapsActivity.this,"Nearby Hospitals", Toast.LENGTH_LONG).show();
-            }
-        });
+//        Button btnHospital = (Button) findViewById(R.id.btnHospital);
+//        btnHospital.setOnClickListener(new View.OnClickListener() {
+//            String Hospital = "hospital";
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("onClick", "Button is Clicked");
+//                mMap.clear();
+//                String url = getUrl(latitude, longitude, Hospital);
+//                Object[] DataTransfer = new Object[2];
+//                DataTransfer[0] = mMap;
+//                DataTransfer[1] = url;
+//                Log.d("onClick", url);
+//                GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
+//                getNearbyPlacesData.execute(DataTransfer);
+//                Toast.makeText(MapsActivity.this,"Nearby Hospitals", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
-        Button btnSchool = (Button) findViewById(R.id.btnSchool);
-        btnSchool.setOnClickListener(new View.OnClickListener() {
-            String School = "school";
-            @Override
-            public void onClick(View v) {
-                Log.d("onClick", "Button is Clicked");
-                mMap.clear();
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
-                String url = getUrl(latitude, longitude, School);
-                Object[] DataTransfer = new Object[2];
-                DataTransfer[0] = mMap;
-                DataTransfer[1] = url;
-                Log.d("onClick", url);
-                GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
-                getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(MapsActivity.this,"Nearby Schools", Toast.LENGTH_LONG).show();
-            }
-        });
+//        Button btnSchool = (Button) findViewById(R.id.btnSchool);
+//        btnSchool.setOnClickListener(new View.OnClickListener() {
+//            String School = "school";
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("onClick", "Button is Clicked");
+//                mMap.clear();
+//                if (mCurrLocationMarker != null) {
+//                    mCurrLocationMarker.remove();
+//                }
+//                String url = getUrl(latitude, longitude, School);
+//                Object[] DataTransfer = new Object[2];
+//                DataTransfer[0] = mMap;
+//                DataTransfer[1] = url;
+//                Log.d("onClick", url);
+//                GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
+//                getNearbyPlacesData.execute(DataTransfer);
+//                Toast.makeText(MapsActivity.this,"Nearby Schools", Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -218,7 +207,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
         googlePlacesUrl.append("&type=" + nearbyPlace);
         googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + "AIzaSyATuUiZUkEc_UgHuqsBJa1oqaODI-3mLs0");
+        googlePlacesUrl.append("&key=" + "AIzaSyBS8GUL5vnb7_88V8mhXjjvq2t9vyaTDnE");
         Log.d("getUrl", googlePlacesUrl.toString());
         return (googlePlacesUrl.toString());
     }
@@ -231,23 +220,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
         Log.d("onLocationChanged", "entered");
-        mMap.clear();
+
 
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
-        String str = "temple";
+        String searchKey = getIntent().getExtras().getString("searchKey").toString();
+        String msg = getIntent().getExtras().getString("message").toString();
+//        String str = "car_repair";
         mLastLocation = location;
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        String url = getUrl(latitude, longitude, str);
+        String url = getUrl(latitude, longitude, searchKey);
         Object[] DataTransfer = new Object[2];
         DataTransfer[0] = mMap;
         DataTransfer[1] = url;
         Log.d("onClick", url);
         GetNearbyPlaces getNearbyPlacesData = new GetNearbyPlaces();
         getNearbyPlacesData.execute(DataTransfer);
-        Toast.makeText(MapsActivity.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
+        Toast.makeText(MapsActivity.this,"Nearby "+msg, Toast.LENGTH_LONG).show();
 
 
 

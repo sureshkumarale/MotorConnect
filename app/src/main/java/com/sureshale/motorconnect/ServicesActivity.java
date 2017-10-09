@@ -31,7 +31,28 @@ public class ServicesActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ServicesActivity.this, MapsActivity.class);
-//                intent.putExtra("car_servicing","car servicing center");
+                intent.putExtra("searchKey","car_repair");
+                intent.putExtra("message","Servicing Center");
+                startActivity(intent);
+            }
+        });
+
+        insuranceAgent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ServicesActivity.this, MapsActivity.class);
+                intent.putExtra("searchKey","insurance_agency");
+                intent.putExtra("message","Insurance Agent");
+                startActivity(intent);
+            }
+        });
+
+        fuelStation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ServicesActivity.this, MapsActivity.class);
+                intent.putExtra("searchKey","gas_station");
+                intent.putExtra("message","Fuel Station");
                 startActivity(intent);
             }
         });

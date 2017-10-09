@@ -90,6 +90,12 @@
             android:layout_marginTop="10dp"/>
         </android.support.design.widget.TextInputLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_insurance_image"
+            android:text="Add Insurance picture"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
