@@ -11,6 +11,7 @@ public class UserSharedPreference {
 
     Context context;
     SharedPreferences sharedPreferences;
+    private String name,email;
 
     public String getName() {
         name = sharedPreferences.getString("userData","");
@@ -22,7 +23,16 @@ public class UserSharedPreference {
         sharedPreferences.edit().putString("userData",name).commit();
     }
 
-    private String name;
+    public String getEmail(){
+        email = sharedPreferences.getString("email","");
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+        sharedPreferences.edit().putString("email",email).commit();
+    }
+
 
     public void removeUser(){
         sharedPreferences.edit().clear().commit();

@@ -1,6 +1,9 @@
 package com.sureshale.motorconnect;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,6 +11,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,6 +30,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     Toolbar toolbar;
     DrawerLayout fullView;
+    UserSharedPreference userSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -44,14 +52,21 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 //        ****UserSharedPreference name Text display****
-            UserSharedPreference userSharedPreference = new UserSharedPreference(BaseActivity.this);
+        userSharedPreference = new UserSharedPreference(BaseActivity.this);
         System.out.println("UserSharedPreference Name2 :"+ userSharedPreference.getName().toString());
 
         View v1 = navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView userName_header = (TextView)v1.findViewById(R.id.user_name);
-        userName_header.setText("Hello "+userSharedPreference.getName().toString());
+
+        String userName = userSharedPreference.getName().toString();
+
+//        Spannable sb = new SpannableString(userName);
+//        sb.setSpan(new StyleSpan(Typeface.ITALIC),0,userName.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        userName_header.setText("Hello "+ userName);
 
     }
+
 
     protected void useToolbar(String title)
     {
@@ -87,6 +102,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.share) {
 
         } else if (id == R.id.my_profile) {
+
+            String email = userSharedPreference.getEmail().toString();
+            Intent intent = new Intent(this,ProfileActivity.class);
+            intent.putExtra("userEmail",email);
+            startActivity(intent);
 
         } else if (id == R.id.logout) {
 

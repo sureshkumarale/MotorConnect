@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.example.sureshale.motorconnect.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by sureshale on 21-09-2017.
  */
@@ -141,7 +144,7 @@ public class SignupActivity extends AppCompatActivity {
         String email = inputEmail.getText().toString().trim();
         if (email.isEmpty() || !isValidEmail(email)){
             layoutEmail.setErrorEnabled(true);
-            layoutEmail.setError("Please Enter Email");
+            layoutEmail.setError("Please Enter Valid Email");
             inputEmail.setError("Valid input required !");
             return false;
         }
@@ -150,9 +153,14 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean checkPhone(){
-        if (inputPhone.getText().toString().trim().isEmpty()){
+
+        String phNumber = inputPhone.getText().toString().trim();
+        Pattern p = Pattern.compile("^[789]\\d{9}$");
+        Matcher m = p.matcher(phNumber);
+        boolean b = m.matches();
+        if (phNumber.isEmpty() || b==false){
             layoutPhone.setErrorEnabled(true);
-            layoutPhone.setError("Please Enter Phone Number");
+            layoutPhone.setError("Please Enter Valid Phone Number");
             inputPhone.setError("Valid input required !");
             return false;
         }

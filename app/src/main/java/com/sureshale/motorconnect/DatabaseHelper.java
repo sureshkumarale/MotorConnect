@@ -124,6 +124,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursorResult;
     }
 
+    public Cursor getUserData(String email){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursorResult = db.rawQuery("select * from " + table_user_details + " where email = " + "'" + email + "'",null);
+        return cursorResult;
+    }
+
+    public void updateUserData(String email, String newUserName){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE " + table_user_details + " SET userName = " + "'" + newUserName + "'" + " where email = '" + email + "'");
+    }
+
 // public Cursor getUserData(String email, String phone){
 //        SQLiteDatabase db = getReadableDatabase();
 //        Cursor cursorResult = db.rawQuery();
