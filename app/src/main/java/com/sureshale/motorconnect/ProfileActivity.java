@@ -53,6 +53,7 @@ public class ProfileActivity extends BaseActivity {
             public void onClick(View v) {
                 String newUserName = profile_userName.getText().toString();
                 databaseHelper.updateUserData(userEmail,newUserName);
+                new UserSharedPreference(ProfileActivity.this).setName(newUserName);
                 Toast.makeText(ProfileActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
             }
         });

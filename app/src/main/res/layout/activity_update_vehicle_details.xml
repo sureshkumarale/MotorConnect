@@ -1,172 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/vehicleType"
-        android:textSize="25sp"
-        android:layout_marginLeft="10dp"
-        android:text="Type"
-        android:layout_gravity="center_horizontal"/>
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/vehicleDetails"
-        android:gravity="center_horizontal"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:columnCount="2"
-        android:layout_marginLeft="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/vehicleType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OdoMeter Reading(Km) :"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:text="Type"
+            android:textSize="25sp" />
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/layout_meter_reading">
-            <EditText
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="@string/vehicleDetails"
+            android:textSize="20sp" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:columnCount="2">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/meter_reading"
-                android:inputType="number"
-                android:textSize="20sp"
-                android:ems="5"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:text="OdoMeter Reading(Km) :"
+                android:textSize="20sp" />
 
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_meter_reading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/meter_reading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ems="5"
+                    android:inputType="number"
+                    android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Last Servicing Date :"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Last Servicing Date :"
+                android:textSize="20sp" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/layout_last_servicing_date">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/last_servicing_date"
-            android:hint="Select Date"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_last_servicing_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Insurance Start Date :"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
+                <TextView
+                    android:id="@+id/last_servicing_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Select Date"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/layout_insurance_date">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/insurance_date"
-            android:hint="Select Date"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
-        </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Insurance Start Date :"
+                android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_insurance_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/insurance_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Select Date"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Pollution Check Date :"
+                android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_pollution_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/pollution_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Select Date"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Last Tyre Change Date :"
+                android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_tyre_change_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tyre_change_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Select Date"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Last Wheel Alignment Date :"
+                android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_wheel_alignment_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/wheel_alignment_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Select Date"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+
+        </GridLayout>
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/add_insurance_image"
-            android:text="Add Insurance picture"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pollution Check Date :"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
-
-        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/layout_pollution_date">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pollution_date"
-            android:hint="Select Date"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
-        </android.support.design.widget.TextInputLayout>
+            android:text="Add Insurance Doc picture" />
 
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Last Tyre Change Date :"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
-
-        <android.support.design.widget.TextInputLayout
+        <Button
+            android:id="@+id/add_pollution_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/layout_tyre_change_date">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tyre_change_date"
-            android:hint="Select Date"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
-        </android.support.design.widget.TextInputLayout>
+            android:text="Add Pollution Doc picture" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Last Wheel Alignment Date :"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
-
-        <android.support.design.widget.TextInputLayout
+        <Button
+            android:id="@+id/add_RC_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/layout_wheel_alignment_date">
-        <TextView
+            android:text="Add RC Doc picture" />
+
+        <Button
+            android:id="@+id/update_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/wheel_alignment_date"
-            android:hint="Select Date"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"/>
-        </android.support.design.widget.TextInputLayout>
+            android:layout_gravity="center_horizontal"
+            android:text="Update" />
 
+    </LinearLayout>
 
+    <!--<LinearLayout-->
+        <!--android:id="@+id/layout_bottomSheet"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/navigation_header"-->
+        <!--android:orientation="vertical"-->
+        <!--app:layout_behavior="android.support.design.widget.BottomSheetBehavior">-->
 
-    </GridLayout>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:text="Select Photo"-->
+            <!--android:textSize="16sp" />-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/update_button"
-        android:text="Update"
-        android:layout_gravity="center_horizontal"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="44dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:background="@drawable/layout_roundrect">-->
 
-</LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/take_camera_pic"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:text="Camera" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="44dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:background="@drawable/layout_roundrect">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/take_gallery_pic"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:text="Gallery" />-->
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+</android.support.design.widget.CoordinatorLayout>

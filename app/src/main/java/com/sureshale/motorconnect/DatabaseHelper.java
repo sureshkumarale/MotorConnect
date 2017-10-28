@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import java.sql.Blob;
 import java.sql.Date;
 
 /**
@@ -42,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String col_d = "meterReading";
     public static final String col_e = "lastTyreChangeDate";
     public static final String col_f = "lastWheelAlignmentDate";
+    public static final String col_g = "insuranceImage";
 
     public DatabaseHelper(Context context) {
         super(context, dataBase_Name, null, 1);
@@ -50,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
     db.execSQL("create table "+ table_list_of_vehicles +" (regNumber TEXT, vehicleType TEXT, vehicleManufacturer TEXT, model TEXT, yearOfman TEXT)");
-        db.execSQL("create table "+ table_vehicle_history +" (regNumber TEXT, lastServicingDate TEXT, lastInsuranceDate TEXT, lastPollutionDate TEXT, meterReading TEXT, lastTyreChangeDate TEXT, lastWheelAlignmentDate TEXT)");
+        db.execSQL("create table "+ table_vehicle_history +" (regNumber TEXT, lastServicingDate TEXT, lastInsuranceDate TEXT, lastPollutionDate TEXT, meterReading TEXT, lastTyreChangeDate TEXT, lastWheelAlignmentDate TEXT, insuranceImage BLOB)");
         db.execSQL("create table "+table_user_details+ " (userName TEXT, email TEXT, phNumber TEXT, password TEXT)");
     }
 
@@ -89,7 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
-    public boolean update_vehicle_history(String regNumber,String lastServicingDate, String lastInsuranceDate, String lastPollutionDate, String meterReading, String lastTyreChangeDate, String lastWheelAlignmentDate){
+    public boolean update_vehicle_history(String regNumber, String lastServicingDate, String lastInsuranceDate, String lastPollutionDate, String meterReading, String lastTyreChangeDate, String lastWheelAlignmentDate, byte[] insuranceImage){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(col_regNumber,regNumber);
@@ -99,7 +101,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(col_d,meterReading);
         values.put(col_e,lastTyreChangeDate);
         values.put(col_f,lastWheelAlignmentDate);
+        values.put(col_g,insuranceImage);
+
         long result = db.insert(table_vehicle_history,null,values);
+
         if (result == -1)
             return false;
         else
@@ -133,6 +138,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void updateUserData(String email, String newUserName){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("UPDATE " + table_user_details + " SET userName = " + "'" + newUserName + "'" + " where email = '" + email + "'");
+    }
+
+    public Cursor imageDetails(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursorResult = db.rawQuery("select * from " + table_vehicle_history + " where meterReading = '3333'",null);
+        return cursorResult;
     }
 
 // public Cursor getUserData(String email, String phone){
