@@ -23,6 +23,7 @@ public class MyVehicleDetails extends BaseActivity {
     VehiclesListAdapter adp;
     List<String> vRegistrationList;
     List<String> vModelList;
+    List<String> yearOfManu;
     ListView vehicleDetailsList;
     FloatingActionButton fab;
 
@@ -35,6 +36,7 @@ public class MyVehicleDetails extends BaseActivity {
 
         vRegistrationList = new ArrayList<>();
         vModelList = new ArrayList<>();
+        yearOfManu = new ArrayList<>();
         vehicleDetailsList = (ListView)findViewById(R.id.list_vehicles);
 
         databaseHelper = new DatabaseHelper(this);
@@ -88,6 +90,7 @@ public class MyVehicleDetails extends BaseActivity {
                     String vehicle = result.getString(2)+" "+result.getString(3);
                     vRegistrationList.add(result.getString(0));
                     vModelList.add(vehicle);
+                    yearOfManu.add(result.getString(4));
                 }
        // Show all data
         adp = new VehiclesListAdapter(vRegistrationList,vModelList,getLayoutInflater());
@@ -98,6 +101,7 @@ public class MyVehicleDetails extends BaseActivity {
                 Toast.makeText(MyVehicleDetails.this, "You have selected :"+vRegistrationList.get(position), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MyVehicleDetails.this,UpdateVehicleDetailsActivity.class);
                 intent.putExtra("regNumber",vRegistrationList.get(position));
+                intent.putExtra("yearOfManu",yearOfManu.get(position));
                 startActivity(intent);
             }
         });

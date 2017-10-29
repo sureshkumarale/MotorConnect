@@ -24,12 +24,13 @@
         android:id="@+id/regNumber_input_layout">
 
     <EditText
-            android:id="@+id/registrationNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Registration Number" />
+        android:id="@+id/registrationNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Registration Number"
+        android:maxLength="12" />
 </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout

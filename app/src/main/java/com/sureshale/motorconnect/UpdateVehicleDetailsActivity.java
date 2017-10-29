@@ -10,9 +10,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.icu.util.Calendar;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -33,11 +35,13 @@ import com.example.sureshale.motorconnect.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by sureshale on 15-09-2017.
  */
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class UpdateVehicleDetailsActivity extends BaseActivity {
 
     TextView type,lastInsuranceDate,lastPollutionDate,lastTyreChangeDate,lastWheelAlignmentDate,lastServicingDate;
@@ -45,19 +49,24 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
     DatabaseHelper databaseHelper;
     String headerText;
     Button updateButton;
-    Button insuranceImageBtn, pollutionImageBtn;
+    Button insuranceImageBtn, pollutionImageBtn, RCimageBtn;
+
+    String systemDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
     private static final int SELECT_PICTURE = 100;
 
     public static final int MY_REQUEST_CAMERA = 10;
     public static final int MY_REQUEST_WRITE_CAMERA = 11;
-    public static final int CAPTURE_CAMERA = 12;
+    public static final int CAPTURE_CAMERA_insuranceImage = 21;
+    public static final int CAPTURE_CAMERA_pollutionImage = 22;
 
     public static final int MY_REQUEST_READ_GALLERY = 13;
     public static final int MY_REQUEST_WRITE_GALLERY = 14;
-    public static final int MY_REQUEST_GALLERY = 15;
+    public static final int MY_REQUEST_GALLERY_insuranceImage = 31;
+    public static final int MY_REQUEST_GALLERY_pollutionImage = 32;
 
-    File filen;
-    public byte[] insuranceImage;
+//    File filen;
+    public byte[] insuranceImage, pollutionImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +85,7 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         updateButton = (Button)findViewById(R.id.update_button);
         insuranceImageBtn = (Button)findViewById(R.id.add_insurance_image);
         pollutionImageBtn = (Button)findViewById(R.id.add_pollution_image);
+        RCimageBtn = (Button)findViewById(R.id.add_RC_image);
 
         headerText = getIntent().getExtras().get("regNumber").toString();
         useToolbar(headerText);
@@ -90,11 +100,18 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
            @Override
            public void onClick(View v) {
 
-               alertDialogList();
+               alertDialogList(CAPTURE_CAMERA_insuranceImage,MY_REQUEST_GALLERY_insuranceImage);
            }
        });
 
        pollutionImageBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               alertDialogList(CAPTURE_CAMERA_pollutionImage,MY_REQUEST_GALLERY_pollutionImage);
+           }
+       });
+
+       RCimageBtn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
 
@@ -104,7 +121,7 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
 
     }
 
-    public void alertDialogList(){
+    public void alertDialogList(final int cameraRequestCode, final int galleryRequestCode){
         final CharSequence photo[] = new CharSequence[] {"Camera", "Gallery"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(UpdateVehicleDetailsActivity.this);
@@ -114,75 +131,94 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (which==0){
 
-                    imageFromCamera();
+                    imageFromCamera(cameraRequestCode);
                 }
                 else {
-                    imageFromGallery();
+                    imageFromGallery(galleryRequestCode);
                 }
             }
         });
         builder.show();
     }
 
-    public void imageFromCamera(){
-        checkPermissionCameraWrite();
-    }
+//    public void imageFromCamera(){
+//        checkPermissionCameraWrite();
+//    }
 
-    public void imageFromGallery(){
-        checkPermissionReadGallery();
-    }
+//    public void imageFromGallery(){
+//        checkPermissionReadGallery();
+//    }
 
-    private void checkPermissionReadGallery(){
-        int permissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
-        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+    private void imageFromGallery(int galleryRequestCode){
+        int readPermissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        int writePermissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(readPermissionCheck != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(UpdateVehicleDetailsActivity.this,new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},MY_REQUEST_READ_GALLERY);
         }
-        else {
-            checkPermissionWriteGallery();
-        }
-    }
-    private void checkPermissionWriteGallery(){
-        int permissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+        else if(writePermissionCheck != PackageManager.PERMISSION_GRANTED){
+//            checkPermissionWriteGallery();
             ActivityCompat.requestPermissions(UpdateVehicleDetailsActivity.this,new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_REQUEST_WRITE_GALLERY);
+
         }
         else {
-            getPhotos();
+//            getPhotos(galleryRequestCode);
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent,galleryRequestCode);
         }
     }
+//    private void checkPermissionWriteGallery(){
+//        int writePermissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        if(writePermissionCheck != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(UpdateVehicleDetailsActivity.this,new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_REQUEST_WRITE_GALLERY);
+//        }
+//        else {
+//            getPhotos();
+//        }
+//    }
 
-    private void getPhotos(){
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent,MY_REQUEST_GALLERY);
-    }
+//    private void getPhotos(int galleryRequestCode){
+//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//        photoPickerIntent.setType("image/*");
+//        startActivityForResult(photoPickerIntent,galleryRequestCode);
+//    }
 
-    private void checkPermissionCameraWrite(){
-        int permissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+    private void imageFromCamera(int cameraRequestCode){
+
+        int writeStoragePermissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int cameraPermissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this,android.Manifest.permission.CAMERA);
+        if(writeStoragePermissionCheck != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(UpdateVehicleDetailsActivity.this,new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_REQUEST_WRITE_CAMERA);
         }
-        else {
-            checkPermissionCA();
-        }
-    }
-    private void checkPermissionCA(){
-        int permissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this,android.Manifest.permission.CAMERA);
-        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+        else if(cameraPermissionCheck != PackageManager.PERMISSION_GRANTED){
+//            checkPermissionCA();
             ActivityCompat.requestPermissions(UpdateVehicleDetailsActivity.this,new String[]{android.Manifest.permission.CAMERA},MY_REQUEST_CAMERA);
         }
         else {
-            catchPhoto();
+//            catchPhoto(cameraRequestCode);
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent,cameraRequestCode);
+
         }
     }
-    private void catchPhoto(){
+//    private void checkPermissionCA(){
+//        int cameraPermissionCheck = ContextCompat.checkSelfPermission(UpdateVehicleDetailsActivity.this,android.Manifest.permission.CAMERA);
+//        if(cameraPermissionCheck != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(UpdateVehicleDetailsActivity.this,new String[]{android.Manifest.permission.CAMERA},MY_REQUEST_CAMERA);
+//        }
+//        else {
+//            catchPhoto();
+//        }
+//    }
+    private void catchPhoto(int cameraRequestCode){
 //        filen = getFile();
         if(true){
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             try {
 //                Uri photocUri = Uri.fromFile(filen);
 //                intent.putExtra(MediaStore.EXTRA_OUTPUT,photocUri);
-                startActivityForResult(intent,CAPTURE_CAMERA);
+                startActivityForResult(intent,cameraRequestCode);
             } catch (ActivityNotFoundException e){
 
             }
@@ -213,11 +249,11 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
             return;
         }
         switch (requestCode){
-            case CAPTURE_CAMERA:
-                Bitmap photo = (Bitmap)data.getExtras().get("data");
-                insuranceImage = ImageUtil.getImageBytes(photo);
+            case CAPTURE_CAMERA_insuranceImage:
+                Bitmap insurancePhoto = (Bitmap)data.getExtras().get("data");
+                insuranceImage = ImageUtil.getImageBytes(insurancePhoto);
                 break;
-            case MY_REQUEST_GALLERY:
+            case MY_REQUEST_GALLERY_insuranceImage:
                 try {
 
                     InputStream inputStream = getContentResolver().openInputStream(data.getData());
@@ -236,39 +272,39 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
                 }catch (Exception e){
                     Log.e("","Error while creating temp file",e);
                 }
+                break;
+            case CAPTURE_CAMERA_pollutionImage:
+                Bitmap pollutionPhoto = (Bitmap)data.getExtras().get("data");
+                pollutionImage = ImageUtil.getImageBytes(pollutionPhoto);
+                break;
+
+            case MY_REQUEST_GALLERY_pollutionImage:
+                try{
+                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                    pollutionImage = ImageUtil.getBytes(inputStream);
+                }catch (Exception e){
+                    Log.e("","Error while creating temp file",e);
+                }
+
         }
     }
 
-    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults){
-
-        switch (requestCode){
-            case MY_REQUEST_CAMERA:
-                catchPhoto();
-                break;
-            case MY_REQUEST_WRITE_CAMERA:
-                checkPermissionCA();
-                break;
-            case MY_REQUEST_READ_GALLERY:
-                checkPermissionWriteGallery();
-                break;
-            case MY_REQUEST_WRITE_GALLERY:
-                getPhotos();
-                break;
-        }
-    }
     public void updateVehicleDetails(){
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                boolean isInserted = databaseHelper.update_vehicle_history(headerText,
+                boolean isInserted = databaseHelper.update_vehicle_history(
+                        systemDate,
+                        headerText,
                         lastServicingDate.getText().toString(),
                         lastInsuranceDate.getText().toString(),
                         lastPollutionDate.getText().toString(),
                         meterReading.getText().toString(),
                         lastTyreChangeDate.getText().toString(),
                         lastWheelAlignmentDate.getText().toString(),
-                        insuranceImage);
+                        insuranceImage,
+                        pollutionImage);
                 if (isInserted=true) {
                     Toast.makeText(UpdateVehicleDetailsActivity.this, "Vehicle History Updated Successfully", Toast.LENGTH_SHORT).show();
                     finish();
@@ -312,13 +348,15 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
     @TargetApi(24)
     private void setDate(final TextView dateView) {
 
+        final int yearOfManu = Integer.parseInt(getIntent().getExtras().get("yearOfManu").toString());
+
         dateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
-                int date = cal.get(Calendar.DAY_OF_MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
 
                     DatePickerDialog dialog = new DatePickerDialog(UpdateVehicleDetailsActivity.this,
                             android.R.style.Theme_Holo_Light_Dialog_MinWidth, new DatePickerDialog.OnDateSetListener() {
@@ -328,8 +366,13 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
                             String date = year + "-" +month+ "-"+dayOfMonth;
                             dateView.setText(date);
                             System.out.println("Assigned date::"+date);
+                            if(yearOfManu>year){
+//                               dateView.setError("Please enter valid Date !");
+                                Toast.makeText(UpdateVehicleDetailsActivity.this, "Select valid date !", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    },year,month,date);
+
+                    },year,month,day);
                 dialog.show();
 
             }

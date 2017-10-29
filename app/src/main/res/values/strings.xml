@@ -142,5 +142,6 @@
         <item>2004</item>
         <item>2003</item>
     </string-array>
+
     <string name="title_activity_maps">Map</string>
 </resources>

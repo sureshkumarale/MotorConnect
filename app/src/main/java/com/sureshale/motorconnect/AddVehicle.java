@@ -254,7 +254,7 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
     }
     private boolean yearofManufacture(){
         if(yearOfman.getSelectedItem().toString().isEmpty() ||
-                yearOfman.getSelectedItem().toString().contentEquals("YYYY")){
+                yearOfman.getSelectedItem().toString().contentEquals("0000")){
             Toast.makeText(this, "Please select year of Manufacture of vehicle", Toast.LENGTH_SHORT).show();
             return false;
         }

@@ -36,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 //    Table = Vehicle History details:::
     public static final String table_vehicle_history = "vehicleHistory";
+    public static final String systemDate = "systemDate";
     public static final String col_regNumber ="regNumber";
     public static final String col_a = "lastServicingDate";
     public static final String col_b = "lastInsuranceDate";
@@ -44,6 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String col_e = "lastTyreChangeDate";
     public static final String col_f = "lastWheelAlignmentDate";
     public static final String col_g = "insuranceImage";
+    public static final String col_h = "pollutionImage";
 
     public DatabaseHelper(Context context) {
         super(context, dataBase_Name, null, 1);
@@ -52,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
     db.execSQL("create table "+ table_list_of_vehicles +" (regNumber TEXT, vehicleType TEXT, vehicleManufacturer TEXT, model TEXT, yearOfman TEXT)");
-        db.execSQL("create table "+ table_vehicle_history +" (regNumber TEXT, lastServicingDate TEXT, lastInsuranceDate TEXT, lastPollutionDate TEXT, meterReading TEXT, lastTyreChangeDate TEXT, lastWheelAlignmentDate TEXT, insuranceImage BLOB)");
+        db.execSQL("create table "+ table_vehicle_history +" (systemDate TEXT, regNumber TEXT, lastServicingDate TEXT, lastInsuranceDate TEXT, lastPollutionDate TEXT, meterReading TEXT, lastTyreChangeDate TEXT, lastWheelAlignmentDate TEXT, insuranceImage BLOB, pollutionImage BLOB)");
         db.execSQL("create table "+table_user_details+ " (userName TEXT, email TEXT, phNumber TEXT, password TEXT)");
     }
 
@@ -91,9 +93,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
-    public boolean update_vehicle_history(String regNumber, String lastServicingDate, String lastInsuranceDate, String lastPollutionDate, String meterReading, String lastTyreChangeDate, String lastWheelAlignmentDate, byte[] insuranceImage){
+    public boolean update_vehicle_history(String date, String regNumber, String lastServicingDate, String lastInsuranceDate, String lastPollutionDate, String meterReading, String lastTyreChangeDate, String lastWheelAlignmentDate, byte[] insuranceImage, byte[] pollutionImage){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(systemDate,date);
         values.put(col_regNumber,regNumber);
         values.put(col_a,lastServicingDate);
         values.put(col_b,lastInsuranceDate);
@@ -102,6 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(col_e,lastTyreChangeDate);
         values.put(col_f,lastWheelAlignmentDate);
         values.put(col_g,insuranceImage);
+        values.put(col_h,pollutionImage);
 
         long result = db.insert(table_vehicle_history,null,values);
 
@@ -142,7 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public Cursor imageDetails(){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursorResult = db.rawQuery("select * from " + table_vehicle_history + " where meterReading = '3333'",null);
+        Cursor cursorResult = db.rawQuery("select * from " + table_vehicle_history + " where meterReading = '111'",null);
         return cursorResult;
     }
 
