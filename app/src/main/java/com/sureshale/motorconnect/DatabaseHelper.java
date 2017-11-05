@@ -44,8 +44,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String col_d = "meterReading";
     public static final String col_e = "lastTyreChangeDate";
     public static final String col_f = "lastWheelAlignmentDate";
-    public static final String col_g = "insuranceImage";
-    public static final String col_h = "pollutionImage";
+
+//    Table = documents for a specific vehicle
+    public static final String table_documents = "vehicleDocuments";
+    public static final String col1_regNumber ="regNumber";
+    public static final String doc_insurance = "insuranceDoc";
+    public static final String doc_registration = "registrationDoc";
+    public static final String doc_pollution = "pollutionDoc";
+    public static final String doc_warranty = "warrantyDoc";
+    public static final String doc_permit = "permitDoc";
 
     public DatabaseHelper(Context context) {
         super(context, dataBase_Name, null, 1);
@@ -54,14 +61,37 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
     db.execSQL("create table "+ table_list_of_vehicles +" (regNumber TEXT, vehicleType TEXT, vehicleManufacturer TEXT, model TEXT, yearOfman TEXT)");
-        db.execSQL("create table "+ table_vehicle_history +" (systemDate TEXT, regNumber TEXT, lastServicingDate TEXT, lastInsuranceDate TEXT, lastPollutionDate TEXT, meterReading TEXT, lastTyreChangeDate TEXT, lastWheelAlignmentDate TEXT, insuranceImage BLOB, pollutionImage BLOB)");
-        db.execSQL("create table "+table_user_details+ " (userName TEXT, email TEXT, phNumber TEXT, password TEXT)");
+        db.execSQL("create table "+ table_vehicle_history +" (systemDate TEXT, regNumber TEXT, lastServicingDate TEXT, lastInsuranceDate TEXT, lastPollutionDate TEXT, meterReading TEXT, lastTyreChangeDate TEXT, lastWheelAlignmentDate TEXT)");
+        db.execSQL("create table "+ table_user_details + " (userName TEXT, email TEXT, phNumber TEXT, password TEXT)");
+        db.execSQL("create table "+ table_documents + " (regNumber TEXT, insuranceDoc BLOB, registrationDoc BLOB, pollutionDoc BLOB, warrantyDoc BLOB, permitDoc BLOB)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     db.execSQL("drop table if exists "+ table_list_of_vehicles);
         onCreate(db);
+    }
+
+    public boolean insert_documents(String regNumber, byte[] insuranceDoc, byte[] registrationDoc, byte[] pollutionDoc, byte[] warrantyDoc, byte[] permitDoc){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(col1_regNumber,regNumber);
+        values.put(doc_insurance,insuranceDoc);
+        values.put(doc_registration,registrationDoc);
+        values.put(doc_pollution,pollutionDoc);
+        values.put(doc_warranty,warrantyDoc);
+        values.put(doc_permit,permitDoc);
+        long result = db.insert(table_documents,null,values);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+
+    public Cursor getDocs(String column){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursorResult = db.rawQuery("select * from "+ table_documents + " where regNumber = "+"'"+column+"'",null);
+        return cursorResult;
     }
 
     public boolean insert_newUser_data(String userName, String email, String phNumber, String password){
@@ -93,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
-    public boolean update_vehicle_history(String date, String regNumber, String lastServicingDate, String lastInsuranceDate, String lastPollutionDate, String meterReading, String lastTyreChangeDate, String lastWheelAlignmentDate, byte[] insuranceImage, byte[] pollutionImage){
+    public boolean update_vehicle_history(String date, String regNumber, String lastServicingDate, String lastInsuranceDate, String lastPollutionDate, String meterReading, String lastTyreChangeDate, String lastWheelAlignmentDate){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(systemDate,date);
@@ -104,8 +134,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(col_d,meterReading);
         values.put(col_e,lastTyreChangeDate);
         values.put(col_f,lastWheelAlignmentDate);
-        values.put(col_g,insuranceImage);
-        values.put(col_h,pollutionImage);
 
         long result = db.insert(table_vehicle_history,null,values);
 

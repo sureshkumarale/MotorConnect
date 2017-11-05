@@ -98,6 +98,8 @@
         <activity
             android:name="com.sureshale.motorconnect.ProfileActivity"
             android:screenOrientation="portrait" />
+        <activity android:name="com.sureshale.motorconnect.DocumentsActivity"></activity>
+        <activity android:name="com.sureshale.motorconnect.DocumentsViewPagerActivity"></activity>
     </application>
 
 </manifest>

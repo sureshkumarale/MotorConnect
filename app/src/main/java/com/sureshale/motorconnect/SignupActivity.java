@@ -52,6 +52,7 @@ public class SignupActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.generic_appbar);
         toolbar.setTitle("Sign Up New User");
+
         registerBtn = (Button)findViewById(R.id.register_button);
 
         vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);

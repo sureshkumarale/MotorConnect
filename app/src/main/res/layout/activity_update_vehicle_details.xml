@@ -168,29 +168,54 @@
         </GridLayout>
 
         <Button
-            android:id="@+id/add_insurance_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Insurance Doc picture" />
-
-        <Button
-            android:id="@+id/add_pollution_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Pollution Doc picture" />
-
-        <Button
-            android:id="@+id/add_RC_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add RC Doc picture" />
-
-        <Button
             android:id="@+id/update_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Update" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_horizontal"
+            android:columnCount="2">
+
+            <Button
+                android:id="@+id/service_historyBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Service History"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:id="@+id/documentsBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Documents"
+                android:layout_gravity="center_horizontal"/>
+
+        </GridLayout>
+        <!--<Button-->
+            <!--android:id="@+id/add_insurance_image"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Add Insurance Doc picture" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/add_pollution_image"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Add Pollution Doc picture" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/add_RC_image"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Add RC Doc picture" />-->
+
+
 
     </LinearLayout>
 
