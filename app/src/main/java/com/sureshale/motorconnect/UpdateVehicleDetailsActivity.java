@@ -1,7 +1,9 @@
 package com.sureshale.motorconnect;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -37,12 +39,20 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
     DatabaseHelper databaseHelper;
     String registrationNumber, string;
     Button updateButton, serviceHistoryBtn, documentsBtn;
+    AlarmManager alarmManager;
+    int mNotificationCount;
+    static final String NOTIFICATION_COUNT = "notificationCount";
+    private static final String TAG = "PUC Alarm";
 
     String systemDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            mNotificationCount = savedInstanceState.getInt(NOTIFICATION_COUNT);
+        }
         setContentView(R.layout.activity_update_vehicle_details);
 
         databaseHelper = new DatabaseHelper(this);
@@ -54,25 +64,37 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         lastTyreChangeDate = (TextView) findViewById(R.id.tyre_change_date);
         lastWheelAlignmentDate = (TextView) findViewById(R.id.wheel_alignment_date);
         lastServicingDate = (TextView) findViewById(R.id.last_servicing_date);
-        updateButton = (Button) findViewById(R.id.update_button);
 
+        string = getIntent().getExtras().get("yearOfManu").toString();
+        registrationNumber = getIntent().getExtras().get("regNumber").toString();
+
+        useToolbar(registrationNumber);
+
+        updateButton = (Button) findViewById(R.id.update_button);
         serviceHistoryBtn = (Button) findViewById(R.id.service_historyBtn);
         documentsBtn = (Button) findViewById(R.id.documentsBtn);
+
+        serviceHistoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UpdateVehicleDetailsActivity.this,ServiceHistoryActivity.class);
+                intent.putExtra("regNumber", registrationNumber);
+                intent.putExtra("yearOfManu", string);
+                startActivity(intent);
+            }
+        });
 
         documentsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UpdateVehicleDetailsActivity.this, DocumentsActivity.class);
                 intent.putExtra("regNumber", registrationNumber);
-                intent.putExtra("string", string);
+                intent.putExtra("yearOfManu", string);
                 startActivity(intent);
             }
         });
 
-        string = getIntent().getExtras().get("yearOfManu").toString();
 
-        registrationNumber = getIntent().getExtras().get("regNumber").toString();
-        useToolbar(registrationNumber);
 
         setDate(lastInsuranceDate);
         setDate(lastPollutionDate);
@@ -83,6 +105,23 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         updateVehicleDetails();
 
     }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putInt(NOTIFICATION_COUNT, mNotificationCount);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+//    @Override
+//    protected void onNewIntent( Intent intent ) {
+//        Log.i( TAG, "onNewIntent(), intent = " + intent );
+//        if (intent.getExtras() != null)
+//        {
+//            Log.i(TAG, "in onNewIntent = " + intent.getExtras().getString("test"));
+//        }
+//        super.onNewIntent( intent );
+//        setIntent( intent );
+//    }
 
     public void updateVehicleDetails() {
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +151,8 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
                 System.out.println("Selected  tyre change Date :::::" + lastTyreChangeDate.getText().toString());
                 System.out.println("Selected  wheel alignment Date :::::" + lastWheelAlignmentDate.getText().toString());
                 System.out.println("Selected  servicing Date :::::" + lastServicingDate.getText().toString());
+
+                setAlarm();
             }
         });
     }
@@ -190,7 +231,7 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         final String row = registrationNumber;
         if (item.getItemId() == R.id.delete_vehicle) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UpdateVehicleDetailsActivity.this);
-            alertDialogBuilder.setIcon(R.drawable.warning_24px);
+            alertDialogBuilder.setIcon(R.drawable.ic_launcher);
             alertDialogBuilder.setTitle("Delete Vehicle Details:" + row + " !!");
             alertDialogBuilder.setMessage("Do you really want to delete this Vehicle Details Permanently?");
             alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -216,5 +257,28 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
             alertDialog.show();
         }
         return true;
+    }
+
+    public void setAlarm(){
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(  this, 0, alarmIntent, 0);
+
+
+        Calendar alarmStartTime = Calendar.getInstance();
+        alarmStartTime.set(Calendar.HOUR_OF_DAY, 10);
+        alarmStartTime.set(Calendar.MINUTE, 00);
+        alarmStartTime.set(Calendar.SECOND, 0);
+        alarmManager.setRepeating(AlarmManager.RTC, alarmStartTime.getTimeInMillis(), getInterval(), pendingIntent);
+    }
+    private int getInterval(){
+//        int days = 1;
+//        int hours = 24;
+        int minutes = 60;
+        int seconds = 60;
+        int milliseconds = 1000;
+//        int repeatMS = days * hours * minutes * seconds * milliseconds;
+        int repeatMS = 2 * seconds * milliseconds;
+        return repeatMS;
     }
 }

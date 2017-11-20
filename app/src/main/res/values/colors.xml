@@ -6,4 +6,5 @@
     <color name="toolbar">#26a69a</color>
     <color name="navigation_header">#4DB6AC</color>
     <color name="statusbar">#00695C</color>
+    <color name="white">#ffffff</color>
 </resources>

@@ -1,9 +1,9 @@
 package com.sureshale.motorconnect;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.example.sureshale.motorconnect.R;
 
@@ -20,16 +20,22 @@ public class DocumentsViewPagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documents_view_pager);
 
+
         int documentTypePosition = getIntent().getIntExtra("documentType",-1);
         String regNumber = getIntent().getStringExtra("regNumber");
+        String intentString = getIntent().getStringExtra("yearOfManu");
 
         viewPager = (ViewPager) findViewById(R.id.documents_view);
-        adapter = new CustomSwipeAdapter(this,regNumber,documentTypePosition);
+        adapter = new CustomSwipeAdapter(this,regNumber,documentTypePosition,intentString);
         if(adapter.getCount()==0){
-            Toast.makeText(this, "No images found", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(viewPager,"No images found !",Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
         else {
             viewPager.setAdapter(adapter);
         }
     }
+
+
+
 }
