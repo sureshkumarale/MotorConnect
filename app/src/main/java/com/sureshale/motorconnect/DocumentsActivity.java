@@ -1,13 +1,10 @@
 package com.sureshale.motorconnect;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -83,7 +80,6 @@ public class DocumentsActivity extends AppCompatActivity {
                 intent.putExtra("documentType",position);
                 intent.putExtra("yearOfManu",intentString);
                 startActivity(intent);
-//                Toast.makeText(DocumentsActivity.this, "clicked on list item "+position, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -123,15 +119,9 @@ public class DocumentsActivity extends AppCompatActivity {
                         intent.putExtra("documentType",position);
                         intent.putExtra("yearOfManu",intentString);
                         startActivity(intent);
-//                        Toast.makeText(DocumentsActivity.this, "clicked on view "+position, Toast.LENGTH_SHORT).show();
                     }
                 });
                 convertView.setTag(viewHolder);
-            }
-            else {
-//                mainViewHolder = (ViewHolder)convertView.getTag();
-//                mainViewHolder.documentType.setText(getItem(position));
-
             }
             return convertView;
         }
@@ -191,14 +181,11 @@ public class DocumentsActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(DocumentsActivity.this,new String[]{android.Manifest.permission.CAMERA},MY_REQUEST_CAMERA);
         }
         else {
-//            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            startActivityForResult(intent,pos);
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             newUri = FileProvider.getUriForFile(this,"com.sureshale.fileprovider",getFilePath());
             intent.putExtra(MediaStore.EXTRA_OUTPUT,newUri);
             startActivityForResult(intent,pos);
         }
-
     }
 
     @Override
@@ -214,78 +201,34 @@ public class DocumentsActivity extends AppCompatActivity {
 
             switch (requestCode) {
                 case 0:
-
-//                    Bitmap insurancePhoto0 = (Bitmap) data.getExtras().get("data");
-//                    try {
-//                        uri = setImageUri(insurancePhoto0);
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    String str0 = uri.toString();
-//                    image = ImageUtil.getImageBytes(insurancePhoto);
-//                    boolean isInserted0 = databaseHelper.insert_documents(regNumber,image,null,null,null,null);
                     boolean isInserted0 = databaseHelper.insert_imageUri(regNumber,newUri.toString(),null,null,null,null);
                     if(isInserted0 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
 
                 case 1:
-//                    Bitmap insurancePhoto = (Bitmap) data.getExtras().get("data");
-//                    try {
-//                        uri = setImageUri(insurancePhoto);
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    String str1 = uri.toString();
                     boolean isInserted1 = databaseHelper.insert_imageUri(regNumber,null,newUri.toString(),null,null,null);
                     if(isInserted1 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
 
                 case 2:
-//                    Bitmap insurancePhoto2 = (Bitmap) data.getExtras().get("data");
-//                    try {
-//                        uri = setImageUri(insurancePhoto2);
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    String str2 = uri.toString();
                     boolean isInserted2 = databaseHelper.insert_imageUri(regNumber,null,null,newUri.toString(),null,null);
                     if(isInserted1 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
 
                 case 3:
-//                    Bitmap insurancePhoto3 = (Bitmap) data.getExtras().get("data");
-//                    try {
-//                        uri = setImageUri(insurancePhoto3);
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    String str3 = uri.toString();
                     boolean isInserted3 = databaseHelper.insert_imageUri(regNumber,null,null,null,newUri.toString(),null);
                     if(isInserted3 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
 
                 case 4:
-//                    Bitmap insurancePhoto4 = (Bitmap) data.getExtras().get("data");
-//                    try {
-//                        uri = setImageUri(insurancePhoto4);
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    String str4 = uri.toString();
                     boolean isInserted4 = databaseHelper.insert_imageUri(regNumber,null,null,null,null,newUri.toString());
                     if(isInserted4 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
-
             }
         }
         else{
@@ -294,26 +237,8 @@ public class DocumentsActivity extends AppCompatActivity {
             Cursor c;
 
             switch (requestCode){
-//                Uri uri1=null;
 
                 case 0:
-//                    selectedImage = data.getData();
-//                    filePath = new String[]{MediaStore.Images.Media.DATA};
-//                    c = getContentResolver().query(selectedImage,filePath, null, null, null);
-//                    c.moveToFirst();
-//                    int columnIndex0 = c.getColumnIndex(filePath[0]);
-//                    String picturePath = c.getString(columnIndex0);
-//                    c.close();
-//                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-////                    Uri uri1=null;
-//                    try {
-//                        uri = setImageUri(thumbnail);
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    String str0 = uri.toString();
                     File newFilePath0 = getFilePath();
                     try {
                         copyGalleryImageToApp(new File(getGalleryImagePath(data.getData())),newFilePath0);
@@ -325,35 +250,8 @@ public class DocumentsActivity extends AppCompatActivity {
                     if(isInserted0 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
-//                    try {
-//                        InputStream inputStream = getContentResolver().openInputStream(data.getData());
-//                        image = ImageUtil.getBytes(inputStream);
-//                    } catch (Exception e) {
-//                        Log.e("", "Error while creating temp file", e);
-//                    }
-//                    boolean isInserted0 = databaseHelper.insert_documents(regNumber,image,null,null,null,null);
-//                    if(isInserted0 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
-//                    else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
-//                    break;
 
                 case 1:
-//                    selectedImage = data.getData();
-//                    filePath = new String[]{MediaStore.Images.Media.DATA};
-//                    c = getContentResolver().query(selectedImage,filePath, null, null, null);
-//                    c.moveToFirst();
-//                    int columnIndex1 = c.getColumnIndex(filePath[0]);
-//                    String picturePath1 = c.getString(columnIndex1);
-//                    c.close();
-//                    Bitmap thumbnail1 = (BitmapFactory.decodeFile(picturePath1));
-//
-//                    try {
-//                        uri = setImageUri(thumbnail1);
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    String str1 = uri.toString();
                     File newFilePath1 = getFilePath();
                     try {
                         copyGalleryImageToApp(new File(getGalleryImagePath(data.getData())),newFilePath1);
@@ -367,90 +265,50 @@ public class DocumentsActivity extends AppCompatActivity {
                     break;
 
                 case 2:
-                    selectedImage = data.getData();
-                    filePath = new String[]{MediaStore.Images.Media.DATA};
-                    c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex2 = c.getColumnIndex(filePath[0]);
-                    String picturePath2 = c.getString(columnIndex2);
-                    c.close();
-                    Bitmap thumbnail2 = (BitmapFactory.decodeFile(picturePath2));
-
+                    File newFilePath2 = getFilePath();
                     try {
-                        uri = setImageUri(thumbnail2);
-
+                        copyGalleryImageToApp(new File(getGalleryImagePath(data.getData())),newFilePath2);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-                    String str2 = uri.toString();
-                    boolean isInserted2 = databaseHelper.insert_imageUri(regNumber,null,null,str2,null,null);
+                    galleryImageUri = FileProvider.getUriForFile(this,"com.sureshale.fileprovider",newFilePath2);
+                    boolean isInserted2 = databaseHelper.insert_imageUri(regNumber,null,null,galleryImageUri.toString(),null,null);
                     if(isInserted2 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
 
-
                 case 3:
-                    selectedImage = data.getData();
-                    filePath = new String[]{MediaStore.Images.Media.DATA};
-                    c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex3 = c.getColumnIndex(filePath[0]);
-                    String picturePath3 = c.getString(columnIndex3);
-                    c.close();
-                    Bitmap thumbnail3 = (BitmapFactory.decodeFile(picturePath3));
-
+                    File newFilePath3 = getFilePath();
                     try {
-                        uri = setImageUri(thumbnail3);
-
+                        copyGalleryImageToApp(new File(getGalleryImagePath(data.getData())),newFilePath3);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-                    String str3 = uri.toString();
-                    boolean isInserted3 = databaseHelper.insert_imageUri(regNumber,null,null,null,str3,null);
+                    galleryImageUri = FileProvider.getUriForFile(this,"com.sureshale.fileprovider",newFilePath3);
+                    boolean isInserted3 = databaseHelper.insert_imageUri(regNumber,null,null,null,galleryImageUri.toString(),null);
                     if(isInserted1 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
-
 
                 case 4:
-                    selectedImage = data.getData();
-                    filePath = new String[]{MediaStore.Images.Media.DATA};
-                    c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex4 = c.getColumnIndex(filePath[0]);
-                    String picturePath4 = c.getString(columnIndex4);
-                    c.close();
-                    Bitmap thumbnail4 = (BitmapFactory.decodeFile(picturePath4));
-
+                    File newFilePath4 = getFilePath();
                     try {
-                        uri = setImageUri(thumbnail4);
-
+                        copyGalleryImageToApp(new File(getGalleryImagePath(data.getData())),newFilePath4);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-                    String str4 = uri.toString();
-                    boolean isInserted4 = databaseHelper.insert_imageUri(regNumber,null,null,null,null,str4);
+                    galleryImageUri = FileProvider.getUriForFile(this,"com.sureshale.fileprovider",newFilePath4);
+                    boolean isInserted4 = databaseHelper.insert_imageUri(regNumber,null,null,null,null,galleryImageUri.toString());
                     if(isInserted1 = true)Toast.makeText(this, "image saved @" +requestCode, Toast.LENGTH_SHORT).show();
                     else Toast.makeText(this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     break;
-
-
             }
         }
 
     }
 
     public File getFilePath(){
-//        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-//
-//        File directory = cw.getDir("imageDir/",Context.MODE_PRIVATE);
-//        File imagePath = new File(Context.getFilesDir(), "imageDir");
-//        File newFile = new File(imagePath, "default_image.jpg");
         File directory = new File(getApplicationContext().getFilesDir()+"/imageDir/");
-
         if(!directory.exists()){
             directory.mkdir();
         }
@@ -485,22 +343,6 @@ public class DocumentsActivity extends AppCompatActivity {
         if (destination != null) {
             destination.close();
         }
-    }
-
-    public Uri setImageUri(Bitmap imageToSave) throws IOException {
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        if(!directory.exists()){
-            directory.mkdir();
-        }
-        File file = new File(directory,System.currentTimeMillis() + ".png");
-        Uri imgUri = Uri.fromFile(file);
-        this.imgPath = file.getAbsolutePath();
-        FileOutputStream out = new FileOutputStream(file);
-        imageToSave.compress(Bitmap.CompressFormat.PNG, 100, out);
-        out.flush();
-        out.close();
-       return imgUri;
     }
 
     @Override

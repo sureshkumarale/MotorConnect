@@ -120,34 +120,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return result; 
     }
 
-    public Cursor get_imageUri(String column){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorResult = db.rawQuery("select * from "+ table_docs + " where regNumber = "+"'"+column+"'",null);
-        return cursorResult;
-    }
-
-    public boolean insert_documents(String regNumber, byte[] insuranceDoc, byte[] registrationDoc, byte[] pollutionDoc, byte[] warrantyDoc, byte[] permitDoc){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(col1_regNumber,regNumber);
-        values.put(doc_insurance,insuranceDoc);
-        values.put(doc_registration,registrationDoc);
-        values.put(doc_pollution,pollutionDoc);
-        values.put(doc_warranty,warrantyDoc);
-        values.put(doc_permit,permitDoc);
-        long result = db.insert(table_documents,null,values);
-        if (result == -1)
-            return false;
-        else
-            return true;
-    }
-
-    public Cursor getDocs(String column){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorResult = db.rawQuery("select * from "+ table_documents + " where regNumber = "+"'"+column+"'",null);
-        return cursorResult;
-    }
-
     public boolean insert_newUser_data(String userName, String email, String phNumber, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -232,9 +204,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursorResult;
     }
 
-//    SELECT vehicleHistory.*, vehicleDetails.vehicleManufacturer, vehicleDetails.model
-//    FROM  vehicleHistory
-//    INNER JOIN vehicleDetails ON  vehicleHistory.regNumber= vehicleDetails.regNumber;
 
     public Cursor getServiceHistory(String regNumber){
         SQLiteDatabase db = getReadableDatabase();
@@ -246,12 +215,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return null;
         }
     }
-
-// public Cursor getUserData(String email, String phone){
-//        SQLiteDatabase db = getReadableDatabase();
-//        Cursor cursorResult = db.rawQuery();
-//        return cursorResult;
-//    }
 
     public void deleteRow(String regNumber){
         SQLiteDatabase db = this.getWritableDatabase();
