@@ -95,7 +95,6 @@ public class DocumentsActivity extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder mainViewHolder = null;
             if(convertView == null){
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout,null);
@@ -190,8 +189,6 @@ public class DocumentsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        byte[] image = null;
-        Uri uri = null;
 
         if(resultCode != RESULT_OK){
             Log.e("msg","Photo not available");
@@ -232,9 +229,7 @@ public class DocumentsActivity extends AppCompatActivity {
             }
         }
         else{
-            Uri selectedImage, galleryImageUri;
-            String[] filePath;
-            Cursor c;
+            Uri galleryImageUri;
 
             switch (requestCode){
 

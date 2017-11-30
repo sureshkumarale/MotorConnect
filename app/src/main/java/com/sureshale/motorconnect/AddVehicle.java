@@ -1,5 +1,6 @@
 package com.sureshale.motorconnect;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sureshale.motorconnect.R;
@@ -26,62 +28,153 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
     TextInputLayout regNumberLayout, vehicleTypeSpinnerLayout, vehicleManufacturerLayout, vehicleModelLayout;
     DatabaseHelper databaseHelper;
     Spinner type,manufacturer,model,yearOfman;
+    String vehicleTypeString, manufacturerString, vehicleModelString;
     Toolbar toolbar;
     Button btn;
+    TextView vehicleTypeBtn, vehicleManufacturerBtn, vehicleModelBtn;
     EditText regNumber;
     private Vibrator vibrator;
+    int RESULT_CODE_FOR_VEHICLE_TYPE = 0;
+    int RESULT_CODE_MANUFACTURER = 11;
+    int RESULT_CODE_VEHICLE_MODEL = 12;
+    int vehicleTypeCode = 100;
+    int manufacturerType,vehicleType = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.add_new_vehicle);
+        setContentView(R.layout.activity_add_new_vehicle);
 
-        toolbar = (Toolbar)findViewById(R.id.generic_appbar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar)findViewById(R.id.generic_appbar);
+//        setSupportActionBar(toolbar);
 
         databaseHelper = new DatabaseHelper(AddVehicle.this);
         vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
+        vehicleTypeBtn = (TextView) findViewById(R.id.vehicleTypeBtn);
+        vehicleManufacturerBtn =(TextView) findViewById(R.id.vehicleManufacturerBtn);
+        vehicleModelBtn = (TextView) findViewById(R.id.vehicleModelBtn);
+
         regNumberLayout = (TextInputLayout)findViewById(R.id.regNumber_input_layout);
-        vehicleTypeSpinnerLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_vehicleType);
-        vehicleManufacturerLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_manufacturer);
-        vehicleModelLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_model);
+//        vehicleTypeSpinnerLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_vehicleType);
+//        vehicleManufacturerLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_manufacturer);
+//        vehicleModelLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_model);
 
         regNumber         = (EditText)findViewById(R.id.registrationNumber);
-        type        =(Spinner)findViewById(R.id.vehicleType);
-        manufacturer=(Spinner)findViewById(R.id.manufacturer);
-        model       =(Spinner)findViewById(R.id.model);
+//        type        =(Spinner)findViewById(R.id.vehicleType);
+//        manufacturer=(Spinner)findViewById(R.id.manufacturer);
+//        model       =(Spinner)findViewById(R.id.model);
         yearOfman  =(Spinner)findViewById(R.id.year_of_manufacure);
         btn         =(Button)findViewById(R.id.addVehicleData);
 
-        type.setAdapter(new ArrayAdapter<String>(AddVehicle.this, android.R.layout.simple_list_item_1,
-                getResources().getStringArray(R.array.addVehicle_type)));
-//        type.setAdapter(myAdapter);
-        type.setOnItemSelectedListener(this);
+//        type.setAdapter(new ArrayAdapter<String>(AddVehicle.this, android.R.layout.simple_list_item_1,
+//                getResources().getStringArray(R.array.addVehicle_type)));
+////        type.setAdapter(myAdapter);
+//        type.setOnItemSelectedListener(this);
 
         addNewVehicleData();
 
+        vehicleTypeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddVehicle.this, ListOfVehiclesActivity.class);
+                startActivityForResult(intent,RESULT_CODE_FOR_VEHICLE_TYPE);
+            }
+        });
+
+        vehicleManufacturerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vehicleTypeCode == 100){
+                    Toast.makeText(AddVehicle.this, "Please select vehicle Type !", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent intent = new Intent(AddVehicle.this,ListOfManufacturersActivity.class);
+                    intent.putExtra("vehicleTypeCode",vehicleTypeCode);
+                    startActivityForResult(intent,RESULT_CODE_MANUFACTURER);
+                }
+
+            }
+        });
+
+        vehicleModelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(vehicleType == 100){
+                    Toast.makeText(AddVehicle.this, "Please select Manufacturer Type !", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(AddVehicle.this,ListOfVehicleModelsActivity.class);
+                    intent.putExtra("vehicleTypeCode",vehicleType);
+                    intent.putExtra("manufacturerTypeCode",manufacturerType);
+                    startActivityForResult(intent,RESULT_CODE_VEHICLE_MODEL);
+                }
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RESULT_CODE_FOR_VEHICLE_TYPE) {
+            if (resultCode == Activity.RESULT_OK) {
+                vehicleTypeString = data.getStringExtra("vehicleTypeText");
+                vehicleTypeCode = data.getIntExtra("vehicleType",0);
+                vehicleTypeBtn.setText(vehicleTypeString);
+                vehicleManufacturerBtn.setText("Select");
+                vehicleModelBtn.setText("Select");
+            }
+        }
+        else if(requestCode == RESULT_CODE_MANUFACTURER){
+            if(resultCode == 11){
+                manufacturerString = data.getStringExtra("manufacturerTypeText");
+                vehicleType = data.getIntExtra("vehicleTypeCode",0);
+                manufacturerType = data.getIntExtra("manufacturerTypeCode",0);
+                vehicleManufacturerBtn.setText(manufacturerString);
+                vehicleModelBtn.setText("Select");
+            }
+        }
+        else if(requestCode == RESULT_CODE_VEHICLE_MODEL){
+            if(resultCode == 12){
+                vehicleModelString = data.getStringExtra("vehicleNameText");
+                vehicleModelBtn.setText(vehicleModelString);
+            }
+        }
+    }
+
     public void addNewVehicleData(){
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateForm() == true) {
+
                 boolean isInserted = databaseHelper.insert_newVehicle_data(regNumber.getText().toString(),
-                        type.getSelectedItem().toString(),
-                        manufacturer.getSelectedItem().toString(),
-                        model.getSelectedItem().toString(),
+                        vehicleTypeString,
+                        manufacturerString,
+                        vehicleModelString,
                         yearOfman.getSelectedItem().toString());
                 if (isInserted = true) {
                     Toast.makeText(AddVehicle.this, "Vehicle Details added Successfully", Toast.LENGTH_SHORT).show();
                     finish();
                     Intent intent = new Intent(AddVehicle.this,MyVehicleDetails.class);
                     startActivity(intent);
-
                 } else
                     Toast.makeText(AddVehicle.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
-            }
+
+//                if (validateForm() == true) {
+//                boolean isInserted = databaseHelper.insert_newVehicle_data(regNumber.getText().toString(),
+//                        type.getSelectedItem().toString(),
+//                        manufacturer.getSelectedItem().toString(),
+//                        model.getSelectedItem().toString(),
+//                        yearOfman.getSelectedItem().toString());
+//                    if (isInserted = true) {
+//                    Toast.makeText(AddVehicle.this, "Vehicle Details added Successfully", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                    Intent intent = new Intent(AddVehicle.this,MyVehicleDetails.class);
+//                    startActivity(intent);
+//                    } else
+//                    Toast.makeText(AddVehicle.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
     }
@@ -260,4 +353,6 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
         }
         return true;
     }
+
+
 }
