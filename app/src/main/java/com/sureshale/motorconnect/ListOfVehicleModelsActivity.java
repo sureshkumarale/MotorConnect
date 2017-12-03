@@ -59,14 +59,19 @@ public class ListOfVehicleModelsActivity extends BaseActivity{
 
             switch (typeOfManufacturer) {
                 case 0:
-                    vehicleImageId.add(R.drawable.honda_2wheeler_logo);
-                    vehicleImageId.add(R.drawable.honda_2wheeler_logo);
+                    vehicleImageId.add(R.drawable.maruti_suzuki_logo);
+                    vehicleImageId.add(R.drawable.maruti_suzuki_logo);
 
-                    vehicleNameText.add("Bajaj");
-                    vehicleNameText.add("Honda");
+                    vehicleNameText.add("Swift");
+                    vehicleNameText.add("Dzire");
                     break;
 
                 case 1:
+                    vehicleImageId.add(R.drawable.honda_4wheeler_logo);
+                    vehicleImageId.add(R.drawable.honda_4wheeler_logo);
+
+                    vehicleNameText.add("Brio");
+                    vehicleNameText.add("Amaze");
                     break;
             }
         }else {

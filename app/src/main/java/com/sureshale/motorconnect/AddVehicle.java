@@ -1,8 +1,11 @@
 package com.sureshale.motorconnect;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.design.widget.TextInputLayout;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,7 +35,7 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
     String vehicleTypeString, manufacturerString, vehicleModelString;
     Toolbar toolbar;
     Button btn;
-    TextView vehicleTypeBtn, vehicleManufacturerBtn, vehicleModelBtn;
+    TextView vehicleTypeBtn, vehicleManufacturerBtn, vehicleModelBtn, registrationDate;
     EditText regNumber;
     private Vibrator vibrator;
     int RESULT_CODE_FOR_VEHICLE_TYPE = 0;
@@ -55,6 +59,7 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
         vehicleTypeBtn = (TextView) findViewById(R.id.vehicleTypeBtn);
         vehicleManufacturerBtn =(TextView) findViewById(R.id.vehicleManufacturerBtn);
         vehicleModelBtn = (TextView) findViewById(R.id.vehicleModelBtn);
+        registrationDate = (TextView)findViewById(R.id.registration_date);
 
         regNumberLayout = (TextInputLayout)findViewById(R.id.regNumber_input_layout);
 //        vehicleTypeSpinnerLayout = (TextInputLayout)findViewById(R.id.spinner_input_layout_vehicleType);
@@ -112,6 +117,9 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
                 }
             }
         });
+
+        setDate(registrationDate);
+
     }
 
     @Override
@@ -124,6 +132,7 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
                 vehicleTypeBtn.setText(vehicleTypeString);
                 vehicleManufacturerBtn.setText("Select");
                 vehicleModelBtn.setText("Select");
+                vehicleType = 100;
             }
         }
         else if(requestCode == RESULT_CODE_MANUFACTURER){
@@ -152,7 +161,8 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
                         vehicleTypeString,
                         manufacturerString,
                         vehicleModelString,
-                        yearOfman.getSelectedItem().toString());
+                        yearOfman.getSelectedItem().toString(),
+                        registrationDate.getText().toString());
                 if (isInserted = true) {
                     Toast.makeText(AddVehicle.this, "Vehicle Details added Successfully", Toast.LENGTH_SHORT).show();
                     finish();
@@ -178,6 +188,39 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
+
+    @TargetApi(24)
+    private void setDate(final TextView dateView) {
+        final int systemYear = Calendar.getInstance().get(Calendar.YEAR);
+        dateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(AddVehicle.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month = month + 1;
+                        String date = year + "-" + month + "-" + dayOfMonth;
+                        dateView.setText(date);
+                        System.out.println("Assigned date::" + date);
+                        if (year > systemYear) {
+//                  dateView.setError("Please enter valid Date !");
+                            Toast.makeText(AddVehicle.this, "Select valid date !", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }, year, month, day);
+                dialog.show();
+
+            }
+        });
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
         // TODO Auto-generated method stub

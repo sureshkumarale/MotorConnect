@@ -4,42 +4,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp">
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="20dp">
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="Servicing Centers"
+        android:textColor="@color/white"
         android:id="@+id/servicing_centers"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textAlignment="viewStart"
+        android:background="@drawable/round_shape_button"
         />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="Insurance Agents"
+        android:textColor="@color/white"
         android:id="@+id/insurance_agents"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textAlignment="viewStart"
+        android:background="@drawable/round_shape_button"
+        android:layout_marginTop="10dp"
         />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="Pollution Check Centers"
+        android:textColor="@color/white"
         android:id="@+id/pollution_centers"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textAlignment="viewStart"
+        android:background="@drawable/round_shape_button"
+        android:layout_marginTop="10dp"
         />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="Fuel Station"
+        android:textColor="@color/white"
         android:id="@+id/fuel_station"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textAlignment="viewStart"
+        android:background="@drawable/round_shape_button"
+        android:layout_marginTop="10dp"
         />
 
 </LinearLayout>

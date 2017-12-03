@@ -25,7 +25,9 @@ import android.widget.Toast;
 
 import com.example.sureshale.motorconnect.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by sureshale on 15-09-2017.
@@ -35,6 +37,7 @@ import java.text.SimpleDateFormat;
 public class UpdateVehicleDetailsActivity extends BaseActivity {
 
     TextView type, lastInsuranceDate, lastPollutionDate, lastTyreChangeDate, lastWheelAlignmentDate, lastServicingDate;
+    TextView textInsuranceDate, textPollutionDate;
     EditText meterReading;
     DatabaseHelper databaseHelper;
     String registrationNumber, string;
@@ -43,6 +46,7 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
     int mNotificationCount;
     static final String NOTIFICATION_COUNT = "notificationCount";
     private static final String TAG = "PUC Alarm";
+    Date regDate;
 
     String systemDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
@@ -64,9 +68,16 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         lastTyreChangeDate = (TextView) findViewById(R.id.tyre_change_date);
         lastWheelAlignmentDate = (TextView) findViewById(R.id.wheel_alignment_date);
         lastServicingDate = (TextView) findViewById(R.id.last_servicing_date);
-
+        textInsuranceDate = (TextView)findViewById(R.id.text_insurance_date);
+        textPollutionDate = (TextView)findViewById(R.id.text_pollution_date);
         string = getIntent().getExtras().get("yearOfManu").toString();
         registrationNumber = getIntent().getExtras().get("regNumber").toString();
+
+        Cursor result = databaseHelper.getData(registrationNumber);
+        String registrationDate = null;
+        while (result.moveToNext()) {
+            registrationDate = result.getString(5);
+        }
 
         useToolbar(registrationNumber);
 
@@ -94,14 +105,32 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
             }
         });
 
+        try {
+           regDate = new SimpleDateFormat("yyyy-MM-dd").parse(registrationDate);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
 
+        Date systemDate = Calendar.getInstance().getTime();
+        int diff = (int)(systemDate.getTime()/(24*60*60*1000)) - (int)(regDate.getTime()/(24*60*60*1000));
 
-        setDate(lastInsuranceDate);
-        setDate(lastPollutionDate);
-        setDate(lastTyreChangeDate);
-        setDate(lastWheelAlignmentDate);
-        setDate(lastServicingDate);
+        System.out.println("difference Days :::"+diff);
+        if (diff<=360){
+            lastInsuranceDate.setFocusable(false);
+            textInsuranceDate.setEnabled(false);
+            lastPollutionDate.setFocusable(false);
+            textPollutionDate.setEnabled(false);
+            setDate(lastTyreChangeDate);
 
+            setDate(lastWheelAlignmentDate);
+            setDate(lastServicingDate);
+        }else {
+            setDate(lastInsuranceDate);
+            setDate(lastPollutionDate);
+            setDate(lastTyreChangeDate);
+            setDate(lastWheelAlignmentDate);
+            setDate(lastServicingDate);
+        }
         updateVehicleDetails();
 
     }
@@ -262,6 +291,8 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
     public void setAlarm(){
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        alarmIntent.putExtra("contentTitle","PUC Check");
+        alarmIntent.putExtra("contentText","PUC is going to expire, for "+registrationNumber);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(  this, 0, alarmIntent, 0);
 
 

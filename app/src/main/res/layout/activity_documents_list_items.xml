@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    >
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -26,6 +27,7 @@
 </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linear_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -33,11 +35,11 @@
         android:layout_below="@+id/linear_1">
         <TextView
             android:id="@+id/add_document"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:text="Add"
-            android:textColor="#FF0000"/>
+            android:textColor="#FF0000" />
         <TextView
             android:id="@+id/view_document"
             android:layout_width="wrap_content"
@@ -47,4 +49,11 @@
             android:text="View"
             android:textColor="#FF0000"/>
     </LinearLayout>
+    <android.support.v4.widget.Space
+        android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="@color/toolbar"
+        android:layout_below="@id/linear_2"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"/>
 </RelativeLayout>

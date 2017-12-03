@@ -29,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String col_3 = "vehicleManufacturer";
     public static final String col_4 = "model";
     public static final String col_5 = "yearOfman";
+    public static final String col_6 = "registrationDate";
 
 //    Table = Vehicle History details:::
     public static final String table_vehicle_history = "vehicleHistory";
@@ -65,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-    db.execSQL("create table "+ table_list_of_vehicles +" (regNumber TEXT, vehicleType TEXT, vehicleManufacturer TEXT, model TEXT, yearOfman TEXT)");
+    db.execSQL("create table "+ table_list_of_vehicles +" (regNumber TEXT, vehicleType TEXT, vehicleManufacturer TEXT, model TEXT, yearOfman TEXT, registrationDate TEXT)");
         db.execSQL("create table "+ table_vehicle_history +" (sysDate TEXT, regNumber TEXT, " +
                 "lastServicingDate TEXT, lastInsuranceDate TEXT, " +
                 "lastPollutionDate TEXT, meterReading TEXT, lastTyreChangeDate TEXT, lastWheelAlignmentDate TEXT)");
@@ -134,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
-    public boolean insert_newVehicle_data(String regNumber, String vehicleType, String vehicleManufacturer, String model, String yearOfman){
+    public boolean insert_newVehicle_data(String regNumber, String vehicleType, String vehicleManufacturer, String model, String yearOfman, String registrationDate){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(col_1, regNumber);
@@ -142,6 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(col_3,vehicleManufacturer);
         values.put(col_4,model);
         values.put(col_5,yearOfman);
+        values.put(col_6,registrationDate);
         long result = db.insert(table_list_of_vehicles,null,values);
         if (result == -1)
             return false;
