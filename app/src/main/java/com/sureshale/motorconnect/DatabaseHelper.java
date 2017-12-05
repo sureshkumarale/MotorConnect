@@ -177,9 +177,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursorResult;
     }
 
-    public Cursor getData(String column){
+    public Cursor getData(String regNumber){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorResult = db.rawQuery("select * from "+table_list_of_vehicles+" where regNumber = "+"'"+column+"'",null);
+        Cursor cursorResult = db.rawQuery("select * from "+table_list_of_vehicles+" where regNumber = "+"'"+regNumber+"'",null);
         return cursorResult;
     }
 

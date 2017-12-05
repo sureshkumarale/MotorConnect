@@ -6,19 +6,22 @@
         <item
             android:id="@+id/home"
             android:title="Home"
-            android:icon="@drawable/home_24px">
+            android:icon="@drawable/home_vector">
         </item>
         <item
             android:id="@+id/my_vehicle"
-            android:title="My Vehicle Details">
+            android:title="My Vehicle Details"
+            android:icon="@drawable/list_vector">
         </item>
         <item
             android:id="@+id/add_vehicle"
-            android:title="Add New Vehicle Details">
+            android:title="Add New Vehicle Details"
+            android:icon="@drawable/plus_vector">
         </item>
         <item
             android:id="@+id/share"
-            android:title="Share Vehicle Details">
+            android:title="Share Vehicle Details"
+            android:icon="@drawable/share_vector">
         </item>
 
     </group>
@@ -30,11 +33,12 @@
             <item
                 android:id="@+id/my_profile"
                 android:title="My Profile"
-                android:icon="@drawable/profile_24px">
+                android:icon="@drawable/profile_vector">
             </item>
             <item
                 android:id="@+id/logout"
-                android:title="Log Out">
+                android:title="Log Out"
+                android:icon="@drawable/logout_vector">
             </item>
 
         </menu>

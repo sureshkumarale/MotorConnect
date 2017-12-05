@@ -72,7 +72,7 @@ public class SignupActivity extends AppCompatActivity {
                                 inputPhone.getText().toString().trim(),
                                 inputPassword.getText().toString().trim());
                         if (isInserted = true) {
-                            Toast.makeText(SignupActivity.this, "UserSharedPreference Details added Successfully", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(SignupActivity.this, "UserSharedPreference Details added Successfully", Toast.LENGTH_SHORT).show();
                             inputName.setText("");
                             inputEmail.setText("");
                             inputPhone.setText("");

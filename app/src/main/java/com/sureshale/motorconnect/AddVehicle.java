@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -50,8 +51,8 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
 
         setContentView(R.layout.activity_add_new_vehicle);
 
-//        toolbar = (Toolbar)findViewById(R.id.generic_appbar);
-//        setSupportActionBar(toolbar);
+        toolbar = (Toolbar)findViewById(R.id.generic_appbar);
+        toolbar.setTitle("Add New Vehicle Details");
 
         databaseHelper = new DatabaseHelper(AddVehicle.this);
         vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
@@ -156,21 +157,21 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                boolean isInserted = databaseHelper.insert_newVehicle_data(regNumber.getText().toString(),
-                        vehicleTypeString,
-                        manufacturerString,
-                        vehicleModelString,
-                        yearOfman.getSelectedItem().toString(),
-                        registrationDate.getText().toString());
-                if (isInserted = true) {
-                    Toast.makeText(AddVehicle.this, "Vehicle Details added Successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                    Intent intent = new Intent(AddVehicle.this,MyVehicleDetails.class);
-                    startActivity(intent);
-                } else
-                    Toast.makeText(AddVehicle.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
-
+                if(validateForm() == true && validateRegNumber()==true) {
+                    boolean isInserted = databaseHelper.insert_newVehicle_data(regNumber.getText().toString(),
+                            vehicleTypeString,
+                            manufacturerString,
+                            vehicleModelString,
+                            yearOfman.getSelectedItem().toString(),
+                            registrationDate.getText().toString());
+                    if (isInserted = true) {
+                        Toast.makeText(AddVehicle.this, "Vehicle Details added Successfully", Toast.LENGTH_SHORT).show();
+                        finish();
+                        Intent intent = new Intent(AddVehicle.this, MyVehicleDetails.class);
+                        startActivity(intent);
+                    } else
+                        Toast.makeText(AddVehicle.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
+                }
 //                if (validateForm() == true) {
 //                boolean isInserted = databaseHelper.insert_newVehicle_data(regNumber.getText().toString(),
 //                        type.getSelectedItem().toString(),
@@ -187,6 +188,18 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
 //                }
             }
         });
+    }
+
+    private boolean validateRegNumber(){
+        String validate = regNumber.getText().toString();
+        Cursor result = databaseHelper.getData(validate);
+        if(result.getCount() == 0){
+            return true;
+        }
+        else {
+            Toast.makeText(this, "This vehicle is already exists", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     @TargetApi(24)
@@ -315,7 +328,7 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
 
     private boolean validateForm(){
 
-        if(!checkName()){
+        if(!checkRegNumber()){
             vibrator.vibrate(120);
             return false;
         }
@@ -326,7 +339,14 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
                 if(vehicleModel()==true){
 
                     if(yearofManufacture()==true){
-                       return true;
+
+                        if(registrationDate() == true){
+                            return true;
+                        }
+                       else {
+                            vibrator.vibrate(120);
+                            return false;
+                        }
                     }
                     else {
                         vibrator.vibrate(120);
@@ -347,8 +367,9 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
             vibrator.vibrate(120);
             return false;
         }
+
     }
-    private boolean checkName(){
+    private boolean checkRegNumber(){
         if (regNumber.getText().toString().trim().isEmpty()){
             regNumberLayout.setErrorEnabled(true);
             regNumberLayout.setError("Please Enter Vehicle Registration Number");
@@ -359,39 +380,60 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
         return true;
     }
     private boolean vehicleType(){
-        if(type.getSelectedItem().toString().isEmpty()||
-                type.getSelectedItem().toString().contentEquals("Select Vehicle Type")){
-            vehicleTypeSpinnerLayout.setErrorEnabled(true);
-            vehicleTypeSpinnerLayout.setError("Please select Vehicle Type");
+        if(vehicleTypeBtn.getText().toString().contentEquals("Select")){
+            Toast.makeText(this, "Please select Vehicle Type", Toast.LENGTH_SHORT).show();
             return false;
         }
-        vehicleTypeSpinnerLayout.setErrorEnabled(false);
+//        if(type.getSelectedItem().toString().isEmpty()||
+//                type.getSelectedItem().toString().contentEquals("Select Vehicle Type")){
+//            vehicleTypeSpinnerLayout.setErrorEnabled(true);
+//            vehicleTypeSpinnerLayout.setError("Please select Vehicle Type");
+//            return false;
+//        }
+//        vehicleTypeSpinnerLayout.setErrorEnabled(false);
         return true;
     }
     private boolean vehicleManufacturer(){
-        if(manufacturer.getSelectedItem().toString().isEmpty() ||
-                manufacturer.getSelectedItem().toString().contentEquals("Select Manufacturer")){
-            vehicleManufacturerLayout.setErrorEnabled(true);
-            vehicleManufacturerLayout.setError("Please select Vehicle Manufacturer");
+        if(vehicleManufacturerBtn.getText().toString().contentEquals("Select")){
+            Toast.makeText(this, "Please select Manufacturer", Toast.LENGTH_SHORT).show();
             return false;
         }
-        vehicleManufacturerLayout.setErrorEnabled(false);
+//        if(manufacturer.getSelectedItem().toString().isEmpty() ||
+//                manufacturer.getSelectedItem().toString().contentEquals("Select Manufacturer")){
+//            vehicleManufacturerLayout.setErrorEnabled(true);
+//            vehicleManufacturerLayout.setError("Please select Vehicle Manufacturer");
+//            return false;
+//        }
+//        vehicleManufacturerLayout.setErrorEnabled(false);
         return true;
     }
     private boolean vehicleModel(){
-        if(model.getSelectedItem().toString().isEmpty() ||
-                model.getSelectedItem().toString().contentEquals("Select Model")){
-            vehicleModelLayout.setErrorEnabled(true);
-            vehicleModelLayout.setError("Please select Vehicle Model");
+        if(vehicleModelBtn.getText().toString().contentEquals("Select")){
+            Toast.makeText(this, "Please select Model", Toast.LENGTH_SHORT).show();
             return false;
         }
-        vehicleModelLayout.setErrorEnabled(false);
+//        if(model.getSelectedItem().toString().isEmpty() ||
+//                model.getSelectedItem().toString().contentEquals("Select Model")){
+//            vehicleModelLayout.setErrorEnabled(true);
+//            vehicleModelLayout.setError("Please select Vehicle Model");
+//            return false;
+//        }
+//        vehicleModelLayout.setErrorEnabled(false);
         return true;
     }
     private boolean yearofManufacture(){
         if(yearOfman.getSelectedItem().toString().isEmpty() ||
-                yearOfman.getSelectedItem().toString().contentEquals("0000")){
-            Toast.makeText(this, "Please select year of Manufacture of vehicle", Toast.LENGTH_SHORT).show();
+                yearOfman.getSelectedItem().toString().contentEquals("YYYY")){
+            Toast.makeText(this, "Select year of Manufacture", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+    private boolean registrationDate(){
+        if (registrationDate.getText().toString().contentEquals("Select Date") ||
+                registrationDate.getText().toString().isEmpty()){
+
+            Toast.makeText(this, "Select Registration Date", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

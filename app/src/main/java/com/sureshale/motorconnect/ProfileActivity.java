@@ -2,10 +2,9 @@ package com.sureshale.motorconnect;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,7 +53,7 @@ public class ProfileActivity extends BaseActivity {
                 String newUserName = profile_userName.getText().toString();
                 databaseHelper.updateUserData(userEmail,newUserName);
                 new UserSharedPreference(ProfileActivity.this).setName(newUserName);
-                Toast.makeText(ProfileActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Profile Updated Successfully, Go home to check updated info", Toast.LENGTH_LONG).show();
             }
         });
 

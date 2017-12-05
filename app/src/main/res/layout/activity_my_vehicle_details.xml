@@ -5,16 +5,19 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/list_vehicles"
-            android:layout_marginLeft="15dp">
-        </ListView>
+            android:layout_marginStart="15dp">
 
+        </ListView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -22,10 +25,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="26dp"
-        android:background="@drawable/floating_add"
-        />
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="40dp"
+        app:backgroundTint="@color/navigation_header"
+        app:srcCompat="@drawable/floating_plus_button" />
+
 
     </RelativeLayout>
 
