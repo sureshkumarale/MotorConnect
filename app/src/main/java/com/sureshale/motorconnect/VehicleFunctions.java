@@ -1,5 +1,10 @@
 package com.sureshale.motorconnect;
 
+import android.content.Context;
+import android.icu.util.Calendar;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,18 +15,19 @@ import java.util.Date;
 
 public class VehicleFunctions {
 
+    Context ctx;
+    DatabaseHelper databaseHelper = new DatabaseHelper(ctx);
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void pucCheck(String lastPUCDate) throws ParseException {
 //  Storing the date in database in YYYY-MM-DD format (ex: 2017-11-30)
+
         Date PUCDate = new SimpleDateFormat("yyyy-MM-dd").parse(lastPUCDate);
 
-        String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        Date currentDate1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
-
-        int years = currentDate1.getYear()-PUCDate.getYear();
-        int months = currentDate1.getMonth()-PUCDate.getMonth();
+        Date systemDate = Calendar.getInstance().getTime();
+        int diff = (int)(systemDate.getTime()/(24*60*60*1000)) - (int)(PUCDate.getTime()/(24*60*60*1000));
 
 //        If the last PUC of the vehicle is more than 170 days, then need to send notification to user
-        if ((years*12 + months)*30 >=170){
+        if (diff >=170){
 
 //            do notify user for PUC check
 
@@ -35,8 +41,20 @@ public class VehicleFunctions {
 
     }
 
-    public void insuranceCheck(){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void insuranceCheck(String lastInsuranceDate) throws ParseException {
 
+        Date insuranceDate = new SimpleDateFormat("yyyy-MM-dd").parse(lastInsuranceDate);
+
+        Date systemDate = Calendar.getInstance().getTime();
+        int diff = (int)(systemDate.getTime()/(24*60*60*1000)) - (int)(insuranceDate.getTime()/(24*60*60*1000));
+
+//        If the last PUC of the vehicle is more than 170 days, then need to send notification to user
+        if (diff >=350){
+
+//            do notify user for insurance renewal
+
+        }
     }
 
 }

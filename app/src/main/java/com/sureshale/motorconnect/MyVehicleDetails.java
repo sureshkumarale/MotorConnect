@@ -2,7 +2,9 @@ package com.sureshale.motorconnect;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -53,11 +55,11 @@ public class MyVehicleDetails extends BaseActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume(){
         super.onResume();
         getVehicleDetails();
-
     }
 
     @Override
@@ -106,6 +108,4 @@ public class MyVehicleDetails extends BaseActivity {
             }
         });
     }
-
-
 }

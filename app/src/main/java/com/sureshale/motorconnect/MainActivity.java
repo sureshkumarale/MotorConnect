@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
         });
 
         useToolbar("ConnectAnyVehicle");
+        NotificationServiceStarterReceiver.setupAlarm(getApplicationContext());
    }
 
     @Override

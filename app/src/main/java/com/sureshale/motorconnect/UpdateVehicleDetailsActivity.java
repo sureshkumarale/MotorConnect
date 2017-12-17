@@ -3,7 +3,6 @@ package com.sureshale.motorconnect;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -181,7 +180,7 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
                 System.out.println("Selected  wheel alignment Date :::::" + lastWheelAlignmentDate.getText().toString());
                 System.out.println("Selected  servicing Date :::::" + lastServicingDate.getText().toString());
 
-                setAlarm();
+//                setAlarm();
             }
         });
     }
@@ -288,28 +287,48 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         return true;
     }
 
-    public void setAlarm(){
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        alarmIntent.putExtra("contentTitle","PUC Check");
-        alarmIntent.putExtra("contentText","PUC is going to expire, for "+registrationNumber);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(  this, 0, alarmIntent, 0);
-
-
-        Calendar alarmStartTime = Calendar.getInstance();
-        alarmStartTime.set(Calendar.HOUR_OF_DAY, 10);
-        alarmStartTime.set(Calendar.MINUTE, 00);
-        alarmStartTime.set(Calendar.SECOND, 0);
-        alarmManager.setRepeating(AlarmManager.RTC, alarmStartTime.getTimeInMillis(), getInterval(), pendingIntent);
-    }
+//    public void setAlarm(String title, String titleDescription){
+//        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+//        alarmIntent.putExtra("title",title);
+//        alarmIntent.putExtra("titleDescription",titleDescription);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(  this, 0, alarmIntent, 0);
+//
+//
+//        Calendar alarmStartTime = Calendar.getInstance();
+//        alarmStartTime.set(Calendar.HOUR_OF_DAY, 10);
+//        alarmStartTime.set(Calendar.MINUTE, 00);
+//        alarmStartTime.set(Calendar.SECOND, 0);
+//        alarmManager.setRepeating(AlarmManager.RTC, alarmStartTime.getTimeInMillis(), getInterval(), pendingIntent);
+//    }
     private int getInterval(){
-//        int days = 1;
-//        int hours = 24;
+        int days = 1;
+        int hours = 24;
         int minutes = 60;
         int seconds = 60;
         int milliseconds = 1000;
 //        int repeatMS = days * hours * minutes * seconds * milliseconds;
         int repeatMS = 2 * seconds * milliseconds;
         return repeatMS;
+    }
+
+    public void pucNotification() throws ParseException {
+        Cursor cursor = databaseHelper.getServiceHistory();
+        while (cursor.moveToNext()) {
+            String dateString = cursor.getString(0);
+            Date pucDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+
+            Date systemDate = Calendar.getInstance().getTime();
+            int diff = (int)(systemDate.getTime()/(24*60*60*1000)) - (int)(pucDate.getTime()/(24*60*60*1000));
+
+//        If the last PUC of the vehicle is more than 170 days, then need to send notification to user
+            if (diff >=170){
+            String title = "PUC Check";
+            String titleDescription = "get PUC Check for : "+cursor.getString(1);
+//            setAlarm(title,titleDescription);
+
+            }
+        }
+
     }
 }

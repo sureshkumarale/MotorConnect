@@ -115,8 +115,7 @@
         <activity android:name="com.sureshale.motorconnect.ListOfManufacturersActivity"></activity>
         <activity android:name="com.sureshale.motorconnect.ListOfVehicleModelsActivity"></activity>
 
-        <receiver android:name="com.sureshale.motorconnect.AlarmReceiver"  android:enabled="true"/>
-        <service android:name="com.sureshale.motorconnect.AlarmService" />
+        <receiver android:name="com.sureshale.motorconnect.NotificationEventReceiver"  android:enabled="true"/>
     </application>
 
 </manifest>
