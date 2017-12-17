@@ -15,8 +15,8 @@ public class NotificationServiceStarterReceiver  {
 
     public static void setupAlarm(Context context) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,17);
-        calendar.set(Calendar.MINUTE,11);
+        calendar.set(Calendar.HOUR_OF_DAY,21);
+        calendar.set(Calendar.MINUTE,5);
         calendar.set(Calendar.SECOND,5);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, NotificationEventReceiver.class);

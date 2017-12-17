@@ -218,9 +218,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
-    public Cursor getServiceHistory(){
+    public Cursor getServiceHistoryForPUCNotification(){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursorResult = db.rawQuery("SELECT lastPollutionDate, regNumber from "+ table_vehicle_history,null);
+        if(cursorResult != null) {
+            return cursorResult;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public Cursor getServiceHistoryForInsuranceNotification(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursorResult = db.rawQuery("SELECT lastInsuranceDate, regNumber from "+ table_vehicle_history,null);
         if(cursorResult != null) {
             return cursorResult;
         }
