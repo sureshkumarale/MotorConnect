@@ -83,29 +83,30 @@ public class MyVehicleDetails extends BaseActivity {
     }
 
     public void getVehicleDetails() {
-                Cursor result = databaseHelper.getData();
-                if (result.getCount() == 0) {
-                    // show message
-                    return;
-                }
-                while (result.moveToNext()) {
-                    String vehicle = result.getString(2)+" "+result.getString(3);
-                    vRegistrationList.add(result.getString(0));
-                    vModelList.add(vehicle);
-                    yearOfManu.add(result.getString(4));
-                }
-       // Show all data
-        adp = new VehiclesListAdapter(vRegistrationList,vModelList,getLayoutInflater());
-        vehicleDetailsList.setAdapter(adp);
-        vehicleDetailsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MyVehicleDetails.this, "You have selected :"+vRegistrationList.get(position), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MyVehicleDetails.this,UpdateVehicleDetailsActivity.class);
-                intent.putExtra("regNumber",vRegistrationList.get(position));
-                intent.putExtra("yearOfManu",yearOfManu.get(position));
-                startActivity(intent);
+        String email = new UserSharedPreference(MyVehicleDetails.this).getEmail();
+        Cursor result = databaseHelper.getListOfVehicles(email);
+        if (result.getCount() != 0) {
+
+
+            while (result.moveToNext()) {
+                String vehicle = result.getString(3) + " " + result.getString(4);
+                vRegistrationList.add(result.getString(1));
+                vModelList.add(vehicle);
+                yearOfManu.add(result.getString(5));
             }
-        });
+            // Show all data
+            adp = new VehiclesListAdapter(vRegistrationList, vModelList, getLayoutInflater());
+            vehicleDetailsList.setAdapter(adp);
+            vehicleDetailsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(MyVehicleDetails.this, "You have selected :" + vRegistrationList.get(position), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MyVehicleDetails.this, UpdateVehicleDetailsActivity.class);
+                    intent.putExtra("regNumber", vRegistrationList.get(position));
+                    intent.putExtra("yearOfManu", yearOfManu.get(position));
+                    startActivity(intent);
+                }
+            });
+        }
     }
 }

@@ -67,15 +67,18 @@ public class LoginActivity extends AppCompatActivity {
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String str = inputEmailPhone.getText().toString().trim();
-                    System.out.println("Login Text::::"+str);
-                    Cursor result = databaseHelper.userValidation(str);
-                    if (result.getCount()==0)
-                        Toast.makeText(LoginActivity.this, "Invalid User !!", Toast.LENGTH_SHORT).show();
+                    String email_phone = inputEmailPhone.getText().toString().trim();
+                    String password = inputPassword.getText().toString();
+                    System.out.println("password Text::::"+password);
+                    Cursor result = databaseHelper.userValidation(email_phone,password);
+                    System.out.println("result count:::"+result.getCount());
+                    if (result.getCount()==0 || result == null) {
+                        Toast.makeText(LoginActivity.this, "Check user name/password or Invalid User !!", Toast.LENGTH_SHORT).show();
+                    }
                     else {
                         while (result.moveToNext()){
-                            if ((str.contentEquals(result.getString(1)) ||
-                                    str.contentEquals(result.getString(2))) &&
+                            if ((email_phone.contentEquals(result.getString(1)) ||
+                                    email_phone.contentEquals(result.getString(2))) &&
                                             inputPassword.getText().toString().contentEquals(result.getString(3))) {
                                 System.out.println("Column 1 :::"+result.getString(1));
                                 System.out.println("Column 2 :::"+result.getString(2));

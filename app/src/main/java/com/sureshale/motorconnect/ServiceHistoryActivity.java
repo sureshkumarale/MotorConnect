@@ -76,7 +76,7 @@ public class ServiceHistoryActivity extends AppCompatActivity{
         }
         while (cursor1.moveToNext()) {
 
-            vModel = cursor1.getString(2)+" "+cursor1.getString(3);
+            vModel = cursor1.getString(3)+" "+cursor1.getString(4);
         }
         serviceHistoryListAdapter = new ServiceHistoryListAdapter(regNumber,vModel,serviceDoneOnList,odometerList,tyreChangeOnList,wheelAlignmentOnList,getLayoutInflater());
         serviceHistory.setAdapter(serviceHistoryListAdapter);

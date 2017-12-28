@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.example.sureshale.motorconnect.R;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Created by sureshale on 27-07-2017.
  */
@@ -158,7 +160,8 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onClick(View v) {
                 if(validateForm() == true && validateRegNumber()==true) {
-                    boolean isInserted = databaseHelper.insert_newVehicle_data(regNumber.getText().toString(),
+                    boolean isInserted = databaseHelper.insert_newVehicle_data(new UserSharedPreference(AddVehicle.this).getEmail(),
+                            regNumber.getText().toString(),
                             vehicleTypeString,
                             manufacturerString,
                             vehicleModelString,
@@ -430,11 +433,22 @@ public class AddVehicle extends AppCompatActivity implements AdapterView.OnItemS
         return true;
     }
     private boolean registrationDate(){
+        int date1 = parseInt(yearOfman.getSelectedItem().toString());
+
+System.out.println("registration date ::: "+registrationDate.getText().toString());
         if (registrationDate.getText().toString().contentEquals("Select Date") ||
                 registrationDate.getText().toString().isEmpty()){
 
             Toast.makeText(this, "Select Registration Date", Toast.LENGTH_SHORT).show();
             return false;
+        }else {
+            String str1 = registrationDate.getText().toString();
+            String[] str2 = str1.split("-");
+            int date2 = parseInt(str2[0]);
+            if(date2<date1){
+                Toast.makeText(this, "Enter valid Registration date !", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
         return true;
     }

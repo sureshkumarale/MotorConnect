@@ -27,6 +27,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Created by sureshale on 15-09-2017.
  */
@@ -73,7 +75,7 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         Cursor result = databaseHelper.getData(registrationNumber);
         String registrationDate = null;
         while (result.moveToNext()) {
-            registrationDate = result.getString(5);
+            registrationDate = result.getString(6);
         }
 
         useToolbar(registrationNumber);
@@ -132,40 +134,62 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
 
     }
 
-//    public void onSaveInstanceState(Bundle savedInstanceState) {
-//        // Save the user's current game state
-//        savedInstanceState.putInt(NOTIFICATION_COUNT, mNotificationCount);
-//        super.onSaveInstanceState(savedInstanceState);
-//    }
-
     public void updateVehicleDetails() {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String servicing, insurance, pollution, tyreChange, tyreAlignment;
 
-                boolean isInserted = databaseHelper.update_vehicle_history(
-                        systemDate,
-                        registrationNumber,
-                        lastServicingDate.getText().toString(),
-                        lastInsuranceDate.getText().toString(),
-                        lastPollutionDate.getText().toString(),
-                        meterReading.getText().toString(),
-                        lastTyreChangeDate.getText().toString(),
-                        lastWheelAlignmentDate.getText().toString());
-                if (isInserted = true) {
-                    Toast.makeText(UpdateVehicleDetailsActivity.this, "Vehicle History Updated Successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                    Intent intent = new Intent(UpdateVehicleDetailsActivity.this, MyVehicleDetails.class);
-                    startActivity(intent);
-                } else
-                    Toast.makeText(UpdateVehicleDetailsActivity.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
+                if(lastServicingDate.getText().toString().isEmpty()){
+                    servicing = null;
+                }else servicing = lastServicingDate.getText().toString();
+
+                if(lastInsuranceDate.getText().toString().isEmpty()){
+                    insurance = null;
+                }else insurance = lastInsuranceDate.getText().toString();
+
+                if(lastPollutionDate.getText().toString().isEmpty()){
+                    pollution = null;
+                }else pollution = lastPollutionDate.getText().toString();
+
+                if(lastTyreChangeDate.getText().toString().isEmpty()){
+                    tyreChange = null;
+                }else tyreChange = lastTyreChangeDate.getText().toString();
+
+                if(lastWheelAlignmentDate.getText().toString().isEmpty()){
+                    tyreAlignment = null;
+                }else tyreAlignment = lastWheelAlignmentDate.getText().toString();
+
+                try {
+                    if(validateForm() == true) {
+                        boolean isInserted = databaseHelper.update_vehicle_history(
+                                systemDate,
+                                registrationNumber,
+                                servicing,
+                                insurance,
+                                pollution,
+                                meterReading.getText().toString(),
+                                tyreChange,
+                                tyreAlignment);
+                        if (isInserted = true) {
+                            Toast.makeText(UpdateVehicleDetailsActivity.this, "Vehicle History Updated Successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                            Intent intent = new Intent(UpdateVehicleDetailsActivity.this, MyVehicleDetails.class);
+                            startActivity(intent);
+                        } else
+                            Toast.makeText(UpdateVehicleDetailsActivity.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
 
 
-                System.out.println("Selected  insurance Date :::::" + lastInsuranceDate.getText().toString());
-                System.out.println("Selected  pollution Date :::::" + lastPollutionDate.getText().toString());
-                System.out.println("Selected  tyre change Date :::::" + lastTyreChangeDate.getText().toString());
-                System.out.println("Selected  wheel alignment Date :::::" + lastWheelAlignmentDate.getText().toString());
-                System.out.println("Selected  servicing Date :::::" + lastServicingDate.getText().toString());
+                        System.out.println("Selected  insurance Date :::::" + lastInsuranceDate.getText().toString());
+                        System.out.println("Selected  pollution Date :::::" + lastPollutionDate.getText().toString());
+                        System.out.println("Selected  tyre change Date :::::" + lastTyreChangeDate.getText().toString());
+                        System.out.println("Selected  wheel alignment Date :::::" + lastWheelAlignmentDate.getText().toString());
+                        System.out.println("Selected  servicing Date :::::" + lastServicingDate.getText().toString());
+
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -175,6 +199,172 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         super.onResume();
 
         getAllVehicleDetails(registrationNumber);
+
+    }
+
+    public boolean validateForm() throws ParseException {
+        if(validateServicingDate() == true){
+            if(validateInsuranceDate() == true) {
+                if(validatePollutionDate() == true) {
+                    if(validateMeterReading() == true) {
+                        if(validateTyreChangeDate() == true) {
+                            if (validateWheelAlignmentDate() == true) {
+
+                                return true;
+                            } else return false;
+                        }else return false;
+                    }else return false;
+
+                }else return false;
+
+            }else return false;
+
+        }else return false;
+
+    }
+
+    public boolean validateServicingDate() throws ParseException {
+
+//        lastServicingDate
+//        lastInsuranceDate
+//        lastPollutionDate
+//        meterReading
+//        lastTyreChangeDate
+//        lastWheelAlignmentDate
+
+        String actualDate = lastServicingDate.getText().toString();
+        if(!actualDate.isEmpty()) {
+            String columnName = "lastServicingDate";
+            String dateFromDB = null;
+            Cursor cursor = databaseHelper.getOrderByServiceHistory(registrationNumber, columnName);
+
+                while (cursor.moveToNext()) {
+                    dateFromDB = cursor.getString(0);
+                }
+            if (dateFromDB != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                if (sdf.parse(actualDate).before(sdf.parse(dateFromDB))) {
+                    Toast.makeText(this, "Enter valid Servicing Date", Toast.LENGTH_SHORT).show();
+                    return false;
+
+                } else return true;
+
+            }else return true;
+        }else return true;
+
+    }
+
+    public boolean validateInsuranceDate() throws ParseException {
+        String actualDate = lastInsuranceDate.getText().toString();
+        if(!actualDate.isEmpty()) {
+            String columnName = "lastInsuranceDate";
+            String dateFromDB = null;
+            Cursor cursor = databaseHelper.getOrderByServiceHistory(registrationNumber, columnName);
+
+            while (cursor.moveToNext()) {
+                dateFromDB = cursor.getString(0);
+            }
+            if (dateFromDB != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                if (sdf.parse(actualDate).before(sdf.parse(dateFromDB))) {
+                    Toast.makeText(this, "Enter valid Insurance Date", Toast.LENGTH_SHORT).show();
+                    return false;
+
+                } else return true;
+
+            }else return true;
+        }else return true;
+
+    }
+
+    public boolean validatePollutionDate() throws ParseException {
+        String actualDate = lastPollutionDate.getText().toString();
+        if(!actualDate.isEmpty()) {
+            String columnName = "lastPollutionDate";
+            String dateFromDB = null;
+            Cursor cursor = databaseHelper.getOrderByServiceHistory(registrationNumber, columnName);
+
+            while (cursor.moveToNext()) {
+                dateFromDB = cursor.getString(0);
+            }
+            if (dateFromDB != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                if (sdf.parse(actualDate).before(sdf.parse(dateFromDB))) {
+                    Toast.makeText(this, "Enter valid Pollution Date", Toast.LENGTH_SHORT).show();
+                    return false;
+
+                } else return true;
+
+            }else return true;
+        }else return true;
+
+    }
+
+    public boolean validateMeterReading() {
+        int actualValue = parseInt(meterReading.getText().toString());
+        if (!meterReading.getText().toString().isEmpty()) {
+            String columnName = "meterReading";
+            String valueFromDB = null;
+            Cursor cursor = databaseHelper.getOrderByServiceHistory(registrationNumber, columnName);
+
+            while (cursor.moveToNext()) {
+                valueFromDB = cursor.getString(0);
+            }
+            if (valueFromDB != null) {
+                if (actualValue <= parseInt(valueFromDB)) {
+                    Toast.makeText(this, "Enter valid Reading value", Toast.LENGTH_SHORT).show();
+                    return false;
+
+                } else return true;
+
+            } else return true;
+        } else return true;
+
+    }
+
+    public boolean validateTyreChangeDate() throws ParseException {
+        String actualDate = lastTyreChangeDate.getText().toString();
+        if(!actualDate.isEmpty()) {
+            String columnName = "lastTyreChangeDate";
+            String dateFromDB = null;
+            Cursor cursor = databaseHelper.getOrderByServiceHistory(registrationNumber, columnName);
+
+            while (cursor.moveToNext()) {
+                dateFromDB = cursor.getString(0);
+            }
+            if (dateFromDB != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                if (sdf.parse(actualDate).before(sdf.parse(dateFromDB))) {
+                    Toast.makeText(this, "Enter valid Insurance Date", Toast.LENGTH_SHORT).show();
+                    return false;
+
+                } else return true;
+
+            }else return true;
+        }else return true;
+
+    }
+
+    public boolean validateWheelAlignmentDate() throws ParseException {
+        String actualDate = lastWheelAlignmentDate.getText().toString();
+        if(!actualDate.isEmpty()) {
+            String columnName = "lastWheelAlignmentDate";
+            String dateFromDB = null;
+            Cursor cursor = databaseHelper.getOrderByServiceHistory(registrationNumber, columnName);
+
+            while (cursor.moveToNext()) {
+                dateFromDB = cursor.getString(0);
+            }
+            if (dateFromDB != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                if (sdf.parse(actualDate).before(sdf.parse(dateFromDB))) {
+                    Toast.makeText(this, "Enter valid Insurance Date", Toast.LENGTH_SHORT).show();
+                    return false;
+
+                } else return true;
+
+            }else return true;
+        }else return true;
 
     }
 
@@ -228,7 +418,7 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
         Cursor result = databaseHelper.getData(column);
 
         while (result.moveToNext()) {
-            type.setText(result.getString(2) + " " + result.getString(3));
+            type.setText(result.getString(3) + " " + result.getString(4));
         }
     }
 
@@ -251,14 +441,14 @@ public class UpdateVehicleDetailsActivity extends BaseActivity {
 
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
-                    databaseHelper.deleteRow(row);
+                    databaseHelper.deleteVehicle(row);
                     Intent intent = new Intent(UpdateVehicleDetailsActivity.this, MyVehicleDetails.class);
                     startActivity(intent);
                     Toast.makeText(UpdateVehicleDetailsActivity.this, "Deleted the " + row + " details !!", Toast.LENGTH_SHORT).show();
                 }
             });
 
-            alertDialogBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {

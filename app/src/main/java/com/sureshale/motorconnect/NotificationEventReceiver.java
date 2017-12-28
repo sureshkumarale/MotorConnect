@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
@@ -84,17 +86,19 @@ public class NotificationEventReceiver extends BroadcastReceiver {
                 Date systemDate = android.icu.util.Calendar.getInstance().getTime();
                 int diff = (int) (systemDate.getTime() / (24 * 60 * 60 * 1000)) - (int) (insuranceDate.getTime() / (24 * 60 * 60 * 1000));
 
-//        If the last Insurance of the vehicle is more than 170 days, then need to send notification to user
+//        If the last Insurance of the vehicle is more than 350 days, then need to send notification to user
                 if (diff >= 350) {
                     PendingIntent pendingIntent = PendingIntent.getActivity(context,
                             INSURANCE_NOTIFICATION_ID,
                             new Intent(context, MainActivity.class),
                             PendingIntent.FLAG_UPDATE_CURRENT);
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+                    Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                     builder.setContentTitle("Notification: Insurance Check")
                             .setAutoCancel(true)
                             .setContentText("Insurance Check for the vehicle :"+cursorInsurance.getString(1))
-                            .setSmallIcon(R.drawable.ic_launcher)
+                            .setSmallIcon(R.drawable.four_wheeler)
+                            .setSound(uri)
                             .setContentIntent(pendingIntent);
 
 

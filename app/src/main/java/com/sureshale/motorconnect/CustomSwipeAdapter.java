@@ -29,9 +29,7 @@ import java.util.List;
 public class CustomSwipeAdapter extends PagerAdapter {
 
 
-    ArrayList<ImagesList> imagesLists = new ArrayList<>();
     List<String> uriList = new ArrayList<>();
-    Bitmap images[];
 
     private Context ctx;
     int documentTypePosition;
@@ -46,68 +44,63 @@ public class CustomSwipeAdapter extends PagerAdapter {
         getUri();
     }
 
-    public void getUri(){
+    private void getUri(){
         DatabaseHelper databaseHelper = new DatabaseHelper(ctx);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         String uriString;
         Cursor result;
-        switch (documentTypePosition){
+        switch (documentTypePosition) {
             case 0:
-            result = db.rawQuery("select insuranceUri from documentsUri where regNumber = "+"'"+regNumber+"'",null);
-            if (result.moveToFirst()==true) {
+                result = db.rawQuery("select insuranceUri from documentsUri where regNumber = " + "'" + regNumber + "'", null);
+                result.moveToFirst();
                 while (result.moveToNext()) {
                     uriString = result.getString(0);
-                    if (uriString!=null) {
+                    if (uriString != null) {
                         uriList.add(uriString);
                     }
                 }
-            }
-            break;
+                break;
 
             case 1:
-                result = db.rawQuery("select regCardUri from documentsUri where regNumber = "+"'"+regNumber+"'",null);
-                if (result.moveToFirst()==true) {
-                    while (result.moveToNext()) {
-                        uriString = result.getString(0);
-                        if (uriString!=null) {
-                            uriList.add(uriString);
-                        }
+                result = db.rawQuery("select regCardUri from documentsUri where regNumber = " + "'" + regNumber + "'", null);
+                result.moveToFirst();
+                while (result.moveToNext()) {
+                    uriString = result.getString(0);
+                    if (uriString != null) {
+                        uriList.add(uriString);
                     }
                 }
                 break;
 
             case 2:
-                result = db.rawQuery("select pollutionCardUri from documentsUri where regNumber = "+"'"+regNumber+"'",null);
-                if (result.moveToFirst()==true) {
-                    while (result.moveToNext()) {
-                        uriString = result.getString(0);
-                        if (uriString!=null) {
-                            uriList.add(uriString);
-                        }
+                result = db.rawQuery("select pollutionCardUri from documentsUri where regNumber = " + "'" + regNumber + "'", null);
+                result.moveToFirst();
+                while (result.moveToNext()) {
+                    uriString = result.getString(0);
+                    if (uriString != null) {
+                        uriList.add(uriString);
                     }
                 }
                 break;
 
             case 3:
-                result = db.rawQuery("select warrantyCardUri from documentsUri where regNumber = "+"'"+regNumber+"'",null);
-                if (result.moveToFirst()==true) {
-                    while (result.moveToNext()) {
-                        uriString = result.getString(0);
-                        if (uriString!=null) {
-                            uriList.add(uriString);
-                        }
+                result = db.rawQuery("select warrantyCardUri from documentsUri where regNumber = " + "'" + regNumber + "'", null);
+                result.moveToFirst();
+                while (result.moveToNext()) {
+                    uriString = result.getString(0);
+                    if (uriString != null) {
+                        uriList.add(uriString);
                     }
                 }
                 break;
 
             case 4:
-                result = db.rawQuery("select permitCardUri from documentsUri where regNumber = "+"'"+regNumber+"'",null);
-                if (result.moveToFirst()==true) {
-                    while (result.moveToNext()) {
-                        uriString = result.getString(0);
-                        if (uriString!=null) {
-                            uriList.add(uriString);
-                        }
+                result = db.rawQuery("select permitCardUri from documentsUri where regNumber = " + "'" + regNumber + "'", null);
+                result.moveToFirst();
+                while (result.moveToNext()) {
+                    uriString = result.getString(0);
+                    if (uriString != null) {
+                        uriList.add(uriString);
                     }
                 }
                 break;

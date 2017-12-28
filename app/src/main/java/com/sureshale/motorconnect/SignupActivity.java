@@ -2,6 +2,7 @@ package com.sureshale.motorconnect;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.design.widget.TextInputLayout;
@@ -66,7 +67,7 @@ public class SignupActivity extends AppCompatActivity {
             registerBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (validateForm()==true) {
+                    if ( validateForm() && validateDataBase()) {
                         boolean isInserted = databaseHelper.insert_newUser_data(inputName.getText().toString().trim(),
                                 inputEmail.getText().toString().trim(),
                                 inputPhone.getText().toString().trim(),
@@ -77,19 +78,38 @@ public class SignupActivity extends AppCompatActivity {
                             inputEmail.setText("");
                             inputPhone.setText("");
                             inputPassword.setText("");
+                            Toast.makeText(SignupActivity.this, "Registered Successfully !!", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
                             startActivity(intent);
                         } else
                             Toast.makeText(SignupActivity.this, "Something went Wrong, details not added", Toast.LENGTH_SHORT).show();
                     }
+                    else
+                        Toast.makeText(SignupActivity.this, "User already exists !", Toast.LENGTH_SHORT).show();
+
                 }
 //                    else
 //                        Toast.makeText(SignupActivity.this, "Please Check Entered Data", Toast.LENGTH_SHORT).show();
             });
-
     }
 
+public boolean validateDataBase(){
+
+    String email = inputEmail.getText().toString().trim();
+    String phone = inputPhone.getText().toString().trim();
+    Cursor result = databaseHelper.getUserData();
+    if(result!=null){
+        while (result.moveToNext()){
+            if(email.equalsIgnoreCase(result.getString(1)) ||
+                    phone.equalsIgnoreCase(result.getString(2))){
+                return false;
+
+            }
+        }
+    }
+    return true;
+}
 
 //
 //    Form Validation
@@ -126,7 +146,6 @@ public class SignupActivity extends AppCompatActivity {
         layoutPassword.setErrorEnabled(false);
         layoutConfirmPassword.setErrorEnabled(false);
 
-        Toast.makeText(this, "Registered Successfully !!", Toast.LENGTH_SHORT).show();
         return true;
     }
 
@@ -194,5 +213,15 @@ public class SignupActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+
+    @Override
+    public void onBackPressed(){
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finishAffinity();
+
     }
 }

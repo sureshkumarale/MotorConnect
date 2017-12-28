@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Table = List of vehicles details:::
     public static final String table_list_of_vehicles = "vehicleDetails";
+    public static final String col_Email = "email";
     public static final String col_1 = "regNumber";
     public static final String col_2 = "vehicleType";
     public static final String col_3 = "vehicleManufacturer";
@@ -42,14 +43,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String col_e = "lastTyreChangeDate";
     public static final String col_f = "lastWheelAlignmentDate";
 
-//    Table = documents for a specific vehicle
-    public static final String table_documents = "vehicleDocuments";
-    public static final String col1_regNumber ="regNumber";
-    public static final String doc_insurance = "insuranceDoc";
-    public static final String doc_registration = "registrationDoc";
-    public static final String doc_pollution = "pollutionDoc";
-    public static final String doc_warranty = "warrantyDoc";
-    public static final String doc_permit = "permitDoc";
+////    Table = documents for a specific vehicle
+//    public static final String table_documents = "vehicleDocuments";
+//    public static final String col1_regNumber ="regNumber";
+//    public static final String doc_insurance = "insuranceDoc";
+//    public static final String doc_registration = "registrationDoc";
+//    public static final String doc_pollution = "pollutionDoc";
+//    public static final String doc_warranty = "warrantyDoc";
+//    public static final String doc_permit = "permitDoc";
 
 //    Test table for image Uri storage
     public static final String table_docs = "documentsUri";
@@ -66,12 +67,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-    db.execSQL("create table "+ table_list_of_vehicles +" (regNumber TEXT, vehicleType TEXT, vehicleManufacturer TEXT, model TEXT, yearOfman TEXT, registrationDate TEXT)");
+    db.execSQL("create table "+ table_list_of_vehicles +" (email TEXT, regNumber TEXT, vehicleType TEXT, vehicleManufacturer TEXT, model TEXT, yearOfman TEXT, registrationDate TEXT)");
         db.execSQL("create table "+ table_vehicle_history +" (sysDate TEXT, regNumber TEXT, " +
                 "lastServicingDate TEXT, lastInsuranceDate TEXT, " +
                 "lastPollutionDate TEXT, meterReading TEXT, lastTyreChangeDate TEXT, lastWheelAlignmentDate TEXT)");
         db.execSQL("create table "+ table_user_details + " (userName TEXT, email TEXT, phNumber TEXT, password TEXT)");
-        db.execSQL("create table "+ table_documents + " (regNumber TEXT, insuranceDoc BLOB, registrationDoc BLOB, pollutionDoc BLOB, warrantyDoc BLOB, permitDoc BLOB)");
+//        db.execSQL("create table "+ table_documents + " (regNumber TEXT, insuranceDoc BLOB, registrationDoc BLOB, pollutionDoc BLOB, warrantyDoc BLOB, permitDoc BLOB)");
 
         db.execSQL("create table " + table_docs + "(regNumber TEXT, insuranceUri TEXT, regCardUri TEXT, pollutionCardUri TEXT, warrantyCardUri TEXT, permitCardUri TEXT)");
     }
@@ -135,9 +136,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
-    public boolean insert_newVehicle_data(String regNumber, String vehicleType, String vehicleManufacturer, String model, String yearOfman, String registrationDate){
+    public boolean insert_newVehicle_data(String email, String regNumber, String vehicleType, String vehicleManufacturer, String model, String yearOfman, String registrationDate){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(col_Email,email);
         values.put(col_1, regNumber);
         values.put(col_2,vehicleType);
         values.put(col_3,vehicleManufacturer);
@@ -171,9 +173,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
-    public Cursor getData(){
+    public Cursor getListOfVehicles(String email){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorResult = db.rawQuery("select * from "+table_list_of_vehicles,null);
+        Cursor cursorResult = db.rawQuery("select * from "+table_list_of_vehicles + " where email = '" + email + "'",null);
         return cursorResult;
     }
 
@@ -183,9 +185,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursorResult;
     }
 
-    public Cursor userValidation(String email_phone){
+    public Cursor userValidation(String email_phone, String password){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursorResult = db.rawQuery("select * from "+table_user_details+" where email = " + "'" +email_phone+ "'" + " OR "+ "phNumber = " + "'"+email_phone+"'",null);
+        Cursor cursorResult = db.rawQuery("select * from "+table_user_details+" where (email = '" +email_phone+ "' OR phNumber = '"+email_phone+"') AND password = '" + password + "'",null);
+        return cursorResult;
+    }
+
+    public Cursor getUserData(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursorResult = db.rawQuery("select * from " + table_user_details,null);
         return cursorResult;
     }
 
@@ -218,6 +226,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
+    public Cursor getOrderByServiceHistory(String regNumber, String columnName){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursorResult = db.rawQuery("SELECT "+ columnName + " from "+ table_vehicle_history + " where regNumber = '" + regNumber + "' order by " + columnName + " desc LIMIT 1",null);
+//        if(cursorResult != null) {
+            return cursorResult;
+//        }
+//        else {
+//            return null;
+//        }
+    }
+
     public Cursor getServiceHistoryForPUCNotification(){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursorResult = db.rawQuery("SELECT lastPollutionDate, regNumber from "+ table_vehicle_history,null);
@@ -240,8 +259,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
-    public void deleteRow(String regNumber){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+table_list_of_vehicles+" where regNumber = "+"'"+regNumber+"'");
+    public void deleteVehicle(String regNumber){
+        SQLiteDatabase dbW = this.getWritableDatabase();
+        SQLiteDatabase dbR = this.getReadableDatabase();
+        dbW.execSQL("delete from "+ table_list_of_vehicles +" where regNumber = '" + regNumber + "'");
+        Cursor curser1 = dbR.rawQuery("SELECT * from " + table_vehicle_history + " where regNumber = '" + regNumber + "'", null);
+        if(curser1 != null) {
+            dbW.execSQL("delete from " + table_vehicle_history + " where regNumber = '" + regNumber + "'");
+        }
+        Cursor curser2 = dbR.rawQuery("SELECT * from " + table_docs + " where regNumber = '" + regNumber + "'", null);
+        if(curser2 != null) {
+            dbW.execSQL("delete from " + table_docs + " where regNumber = '" + regNumber + "'");
+        }
     }
 }
